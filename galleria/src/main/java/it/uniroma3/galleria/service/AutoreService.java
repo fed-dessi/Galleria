@@ -2,40 +2,56 @@ package it.uniroma3.galleria.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.galleria.model.Autore;
+import it.uniroma3.galleria.repository.AutoreRepository;
 
-
+@Service
+@Transactional
 public class AutoreService {
 
-	@PersistenceContext(unitName = "unit-jee-galleria")
-	private EntityManager em;
+	@Autowired
+	private AutoreRepository repository;
 
 	public AutoreService() {
 		
 	}
 	
 	public Autore inserisciAutore(Autore autore) {
-		em.persist(autore);
+		repository.save(autore);
 		return autore;
 	}
 
 	public List<Autore> getAutori() {
-		TypedQuery<Autore> query = em.createNamedQuery("findAll", Autore.class);
-		List<Autore> autori = query.getResultList();
+		List<Autore> autori = repository.findAll();
 		return autori;
 	}
 	
 	public Autore getOneAutore(Long id) {
-		Autore autore = em.find(Autore.class, id);
+		Autore autore = repository.findOne(id);
 		return autore;
 	}
 
 
 	public void delete(Autore a){
-	em.remove(em.contains(a)? a: em.merge(a));
+		repository.delete(a);
 	}
-}
+	
+	public Autore getByNome(String nome){
+		Autore autore = repository.findByNome(nome);
+		return autore;
+	}
+	
+	public Autore getByCognome(String cognome){
+		Autore autore = repository.findByCognome(cognome);
+		return autore;
+	}
+	
+	public List<Autore> getByNazionalita(String nazionalita){
+		List<Autore> autori = repository.findByNazionalita(nazionalita);
+		return autori;
+	}
+	}
