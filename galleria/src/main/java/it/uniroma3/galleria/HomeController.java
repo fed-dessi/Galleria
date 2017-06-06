@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.Utente;
@@ -30,7 +30,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
@@ -44,23 +44,23 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/utente", method = RequestMethod.GET)
+	@GetMapping(value = "/utente")
 	public String loginPage(Locale locale, Model model) {
 		return "utente";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping(value = "/login")
 	public String login(@Validated Utente user, Model model) {
 		model.addAttribute("email", user.getEmail());
 		return "user";
 	}
 	
-	@RequestMapping(value = "/inserimento", method = RequestMethod.GET)
+	@GetMapping(value = "/inserimento")
 	public String inserimentoPage(Locale locale, Model model) {
 		return "inserimento";
 	}
 	
-	@RequestMapping(value = "/inserimento", method = RequestMethod.POST)
+	@PostMapping(value = "/inserimento")
 	public String inserimento(Autore autore, Model model) {
 		Autore a = new Autore();
 		a.setNome(autore.getNome());
