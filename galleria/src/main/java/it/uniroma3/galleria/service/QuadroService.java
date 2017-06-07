@@ -23,9 +23,8 @@ public class QuadroService {
 		
 	}
 	
-	public Quadro inserisciQuadro(Quadro quadro) {
+	public void inserisciQuadro(Quadro quadro) {
 		repository.save(quadro);
-		return quadro;
 	}
 
 	public List<Quadro> getQuadri() {

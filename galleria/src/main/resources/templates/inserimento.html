@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<title>Inserimento quadro</title>
+</head>
+<body>
+	<form action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
+		<div>Titolo : <input type = "text" th:field = "*{titolo}"/></div>
+		<div>Anno : <input type = "date" th:field = "*{anno}"/></div>
+		<div>Tecnica : <input type = "text" th:field = "*{tecnica}"/></div>
+		<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/></div>
+		<div><button type = "submit">Inserisci 1/2</button></div>
+	</form>
+	<div th:switch = "${inseritoCorrettamente}">
+		<p th:case = "'true'">${quadro.titolo} inserito correttamente!</p>
+	</div>
+</body>
+</html>

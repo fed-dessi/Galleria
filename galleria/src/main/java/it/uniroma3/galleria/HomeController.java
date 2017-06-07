@@ -20,7 +20,7 @@ import it.uniroma3.galleria.service.AutoreService;
 /**
  * Handles requests for the application home page.
  */
-@Controller
+
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
