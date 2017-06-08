@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Inserimento Autore</title>
 </head>
 <body>
 	<form action = "#" th:action = "@{/inserimentoAutore}" th:object = "${autore}" method = "POST">
+	<h1 th:text="'Inserimento autore di: ' + ${quadro.titolo}"></h1>
 	<div>Nome autore: <input type = "text" th:field = "*{nome}"/></div>
 	<div>Cognome autore: <input type = "text" th:field = "*{cognome}"/></div>
 	<div>Nazionalita: <input type = "text" th:field = "*{nazionalita}"/></div>
-	<div>Nome autore: <input type = "text" th:field = "*{nome}"/></div>
 	<div>Data di nascita: <input type = "date" th:field = "*{dob}"/></div>
 	<div>Data di morte: <input type = "date" th:field = "*{dod}"/></div>
 	<div><button type = "submit">Completa inserimento quadro</button></div>

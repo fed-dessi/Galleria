@@ -10,7 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Quadro {
@@ -21,6 +25,8 @@ public class Quadro {
 	@NotNull
 	private String titolo;
 	@NotNull
+	@Temporal(value = TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date anno;
 	@NotNull
 	private String tecnica;
@@ -34,6 +40,9 @@ public class Quadro {
 		this.anno = anno;
 		this.tecnica = tecnica;
 		this.dimensioni = dimensioni;
+	}
+	public Quadro(){
+		
 	}
 	
 	public Long getId() {

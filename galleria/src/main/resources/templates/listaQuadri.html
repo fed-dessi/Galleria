@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Lista Quadri</title>
+</head>
+<body>
+	<h1>Lista Quadri visualizzabili:</h1>
+	<ul>
+		<li th:each="quadro : ${quadri}"
+       		th:text="${quadro.titolo}"></li>
+	</ul>
+	<div><a href = "/">Torna alla home page</a></div>
+</body>
+</html>
