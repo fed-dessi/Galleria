@@ -6,16 +6,25 @@
 </head>
 <body>
 	<form action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
-		<div>Titolo : <input type = "text" th:field = "*{titolo}"/></div>
-		<div>Anno : <input type = "date" th:field = "*{anno}"/></div>
-		<div>Tecnica : <input type = "text" th:field = "*{tecnica}"/></div>
-		<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/></div>
+		<div>Titolo : <input type = "text" th:field = "*{titolo}"/> 
+			<span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error</span> 
+		</div>
+		<div>Anno : <input type = "date" th:field = "*{anno}"/> 
+			<span th:if="${#fields.hasErrors('anno')}" th:text="#{label.mandatory}">Error</span>
+		</div>
+		<div>Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
+			<span th:if="${#fields.hasErrors('tecnica')}" th:text="#{label.mandatory}">Error</span>
+		</div>
+		<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
+			<span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
+		</div>
 		<div><button type = "submit">Inserisci 1/2</button></div>
 	</form>
 	<br/>
-	<div th:if = "${inseritoCorrettamente}"><div th:text = "'Quadro ' + ${quadro.titolo} + ' inserito correttamente!'"></div>	</div>
+	<div th:if = "${inseritoCorrettamente}"><h3 th:text = "'Quadro ' + ${quadro.titolo} + ' inserito correttamente!'"></h3>	</div>
+	
 	<form action = "/">
-	<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
+		<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
 	</form>
 </body>
 </html>

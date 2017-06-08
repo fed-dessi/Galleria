@@ -2,7 +2,6 @@ package it.uniroma3.galleria.controller;
 
 import java.util.List;
 
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +21,10 @@ import it.uniroma3.galleria.service.QuadroService;
 
 @Controller
 @SessionAttributes("quadro")
-public class HomeController {
+public class InserimentoController {
 	
 	@Autowired
 	QuadroService service;
-	
-	@GetMapping(value = "/")
-	public String index(){
-		return "index";
-	}
 	
 	@GetMapping(value = "/inserimento")
 	public String inserimentoPagina(Quadro quadro){
@@ -40,7 +34,7 @@ public class HomeController {
 	//Inseriamo prima le informazioni del quadro
 	@PostMapping(value = "/inserimento")
 	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, Model model){
-		
+
 		if(bindingResult.hasErrors()){
 			
 		    List<FieldError> errors = bindingResult.getFieldErrors();
@@ -60,7 +54,7 @@ public class HomeController {
 	
 	//Dopo aver inserito le informazioni del quadro inseriamo quelle dell'autore e poi lo assegnamo al quadro, ci pensera' L'ORM a fare un persist a tutti e due
 	@PostMapping(value = "/inserimentoAutore")
-	public String inserimentoAutore(@Valid @ModelAttribute Autore autore, @ModelAttribute Quadro quadro, BindingResult bindingResult, Model model, SessionStatus status){
+	public String inserimentoAutore(@Valid @ModelAttribute Autore autore, BindingResult bindingResult, Quadro quadro, Model model, SessionStatus status){
 
 		if(bindingResult.hasErrors()){
 		    List<FieldError> errors = bindingResult.getFieldErrors();
@@ -80,13 +74,5 @@ public class HomeController {
 		model.addAttribute(quadro);
 		model.addAttribute("inseritoCorrettamente", true);
 		return "inserimento";
-	}
-	
-	//Prima implementazione di una lista di quadri disponibili (bisogna aggiungere link)
-	@GetMapping(value = "/lista")
-	public String paginaLista(Model model){
-		List<Quadro> quadri = service.getQuadri();
-		model.addAttribute("quadri",quadri);
-		return "listaQuadri";
 	}
 }

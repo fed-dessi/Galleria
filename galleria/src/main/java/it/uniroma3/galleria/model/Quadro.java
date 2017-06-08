@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,16 +23,24 @@ public class Quadro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@NotNull
+	@Size(min = 1)
 	private String titolo;
+	
 	@NotNull
 	@Temporal(value = TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date anno;
+	
+	@Size(min = 1)
 	@NotNull
 	private String tecnica;
+	
 	@NotNull
+	@Size(min = 1)
 	private String dimensioni;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Autore autore;
 	
