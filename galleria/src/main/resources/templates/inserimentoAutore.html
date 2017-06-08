@@ -6,21 +6,31 @@
 </head>
 <body>
 	<form action = "#" th:action = "@{/inserimentoAutore}" th:object = "${autore}" method = "POST">
-	<h1 th:text="'Inserimento autore di: ' + ${quadro.titolo}"></h1>
-	<div>Nome autore: <input type = "text" th:field = "*{nome}"/>
-		<span th:if="${#fields.hasErrors('nome')}" th:text="#{label.mandatory}">Error</span>
-	</div>
-	<div>Cognome autore: <input type = "text" th:field = "*{cognome}"/>
-		<span th:if="${#fields.hasErrors('cognome')}" th:text="#{label.mandatory}">Error</span>
-	</div>
-	<div>Nazionalita: <input type = "text" th:field = "*{nazionalita}"/>
-		<span th:if="${#fields.hasErrors('nazionalita')}" th:text="#{label.mandatory}">Error</span>
-	</div>
-	<div>Data di nascita: <input type = "date" th:field = "*{dob}"/>
-		<span th:if="${#fields.hasErrors('dob')}" th:text="#{label.mandatory}">Error</span>
-	</div>
-	<div>Data di morte: <input type = "date" th:field = "*{dod}"/></div>
-	<div><button type = "submit">Completa inserimento quadro</button></div>
+		<h1 th:text="'Inserimento autore di: ' + ${quadro.titolo}"></h1>
+		<div>Nome autore: <input type = "text" th:field = "*{nome}" th:readonly = "${inseritoCorrettamente}"/>
+			<span th:if="${#fields.hasErrors('nome')}" th:text="#{label.mandatory}">Error</span>
+		</div>
+		<div>Cognome autore: <input type = "text" th:field = "*{cognome}" th:readonly = "${inseritoCorrettamente}"/>
+			<span th:if="${#fields.hasErrors('cognome')}" th:text="#{label.mandatory}">Error</span>
+		</div>
+		<div>Nazionalita: <input type = "text" th:field = "*{nazionalita}" th:readonly = "${inseritoCorrettamente}"/>
+			<span th:if="${#fields.hasErrors('nazionalita')}" th:text="#{label.mandatory}">Error</span>
+		</div>
+		<div>Data di nascita: <input type = "date" th:field = "*{dob}" th:readonly = "${inseritoCorrettamente}"/>
+			<span th:if="${#fields.hasErrors('dob')}" th:text="#{label.mandatory}">Error</span>
+		</div>
+		<div>Data di morte: <input type = "date" th:field = "*{dod}" th:readonly = "${inseritoCorrettamente}"/></div>
+		<div><button type = "submit" th:disabled = "${inseritoCorrettamente}">Completa inserimento quadro</button></div>
 	</form>
+	
+	<div th:if = "${inseritoCorrettamente}">
+		<h3 th:text = "'Quadro ' + ${quadro.titolo} + ' inserito correttamente!'"></h3>	
+		<form>
+			<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
+		</form>
+		<form>
+			<button formaction = "/inserimento" type = "submit" formmethod = "GET">Inserisci nuovo quadro</button>
+		</form>
+	</div>
 </body>
 </html>

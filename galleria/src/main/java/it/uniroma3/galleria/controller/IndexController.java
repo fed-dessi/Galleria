@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import it.uniroma3.galleria.model.Quadro;
 import it.uniroma3.galleria.service.QuadroService;
@@ -22,11 +23,22 @@ public class IndexController {
 		return "index";
 	}
 	
-	//Prima implementazione di una lista di quadri disponibili (bisogna aggiungere link)
 	@GetMapping(value = "/lista")
 	public String paginaLista(Model model){
 		List<Quadro> quadri = service.getQuadri();
 		model.addAttribute("quadri",quadri);
 		return "listaQuadri";
+	}
+	
+	@GetMapping(value = "/dettagli")
+	public String dettagliQuadro(@ModelAttribute("id") Long id, BindingResult results, Model model){
+		
+		if(results.hasErrors()){
+			return "listaQuadri";
+		}
+		
+		Quadro quadro = service.getOneQuadro(id);
+		model.addAttribute(quadro);
+		return "dettagliQuadro";
 	}
 }

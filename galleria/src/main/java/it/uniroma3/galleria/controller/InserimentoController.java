@@ -73,6 +73,6 @@ public class InserimentoController {
 		//reinserisco i dati di quadro per poter visualizzare il messaggio di successo
 		model.addAttribute(quadro);
 		model.addAttribute("inseritoCorrettamente", true);
-		return "inserimento";
+		return "inserimentoAutore";
 	}
 }

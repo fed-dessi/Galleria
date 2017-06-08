@@ -7,8 +7,9 @@
 <body>
 	<h1>Lista Quadri visualizzabili:</h1>
 	<ul>
-		<li th:each="quadro : ${quadri}"
-       		th:text="${quadro.titolo}"></li>
+		<li th:each="quadro : ${quadri}">
+			<a th:href="@{/dettagli(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
+		</li>
 	</ul>
 	<div><a href = "/">Torna alla home page</a></div>
 </body>
