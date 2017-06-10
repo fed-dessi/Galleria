@@ -19,7 +19,17 @@
 		<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
 			<span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
 		</div>
-		<div><button type = "submit">Inserisci 1/2</button></div>
+		
+		<div th:if = "${noAutori}">
+			Inserisci autore da lista? <input type = "checkbox" name = "inserisciDaLista" />
+		</div>
+		<br/>
+		<select name = "autoriEsistenti" th:if = "${noAutori}">
+			<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>
+			<option th:each="autore : ${autori}" th:text = "${autore.nome} + ' ' + ${autore.cognome}" th:value = "${autore.id}"/>
+		</select>
+		<br/>
+		<div><button type = "submit">Inserisci Dati Quadro</button></div>
 	</form>
 	<br/>
 	<form>

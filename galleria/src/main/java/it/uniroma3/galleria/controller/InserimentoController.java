@@ -1,7 +1,9 @@
 package it.uniroma3.galleria.controller;
 
+
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.Quadro;
+import it.uniroma3.galleria.service.AutoreService;
 import it.uniroma3.galleria.service.QuadroService;
 
 @Controller
@@ -25,15 +29,27 @@ public class InserimentoController {
 	
 	@Autowired
 	QuadroService service;
+	@Autowired
+	AutoreService aService;
 	
 	@GetMapping(value = "/inserimento")
-	public String inserimentoPagina(Quadro quadro){
+	public String inserimentoPagina(Quadro quadro, Model model){
+		List<Autore> autori = aService.getAutori();
+		System.out.println(autori == null);
+		System.out.println(autori.toString());
+		if(autori == null || autori.equals("")){
+			model.addAttribute("noAutori", false);
+		}
+		else{
+			model.addAttribute("noAutori", true);
+			model.addAttribute("autori", autori);
+		}
 		return "inserimento";
 	}
 	
 	//Inseriamo prima le informazioni del quadro
 	@PostMapping(value = "/inserimento")
-	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, Model model){
+	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, HttpServletRequest request, @RequestParam(value = "autoriEsistenti", required = false) Long autoriEsistenti, Model model){
 
 		if(bindingResult.hasErrors()){
 			
@@ -42,12 +58,22 @@ public class InserimentoController {
 		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
 		    }
 		    return "inserimento";
+		//Controllo se l'utente ha deciso di usare il menu a tendina per scegliere un autore gia' esistente
+		}else if(autoriEsistenti != null){
+			Autore autore = aService.getOneAutore(autoriEsistenti);
+			quadro.setAutore(autore);
+			service.inserisciQuadro(quadro);
+			model.addAttribute("inseritoCorrettamente", true);
+			model.addAttribute(quadro);
+			model.addAttribute(autore);
+			return "inserimentoAutore";
+		}else{
+			//Oltre ad aggiungere quadro al model, poiche' ho dichiarato il parametro "quadro" come @SessionAttributes allora verra' catturato nella sessione
+			model.addAttribute(quadro);
+			Autore autore = new Autore();
+			model.addAttribute(autore);
+			return "inserimentoAutore";
 		}
-		//Oltre ad aggiungere quadro al model, poiche' ho dichiarato il parametro "quadro" come @SessionAttributes allora verra' catturato nella sessione
-		model.addAttribute(quadro);
-		Autore autore = new Autore();
-		model.addAttribute(autore);
-		return "inserimentoAutore";
 	}
 	
 
