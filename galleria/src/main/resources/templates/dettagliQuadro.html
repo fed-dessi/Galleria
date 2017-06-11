@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title th:text = "'Dettagli' + ${quadro.titolo}">Insert title here</title>
+<title th:text = "'Dettagli di: ' + ${quadro.titolo}">Insert title here</title>
 </head>
 <body>
 	<h1 th:text = "'Dettagli di: ' + ${quadro.titolo}">Quadro</h1>
@@ -17,7 +17,10 @@
 		<li th:text = "'Cognome Autore: ' + ${quadro.autore.cognome}"></li>
 		<li th:text = "'Nazionalita Autore: ' + ${quadro.autore.nazionalita}"></li>
 		<li th:text = "'Data di nascita: ' + ${quadro.autore.dob}"></li>
-		<li th:text = "'Data di morte: ' + ${quadro.autore.dod}"></li>
+		<li th:switch ="${quadro.autore.dod == null}">
+			<span th:case = "false" th:text = "'Data di morte: ' + ${quadro.autore.dod}"></span>
+			<span th:case = "true" th:text = "'Data di morte: '"></span>
+		</li>
 	</ul>
 	<form>
 		<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>

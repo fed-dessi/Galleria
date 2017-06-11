@@ -2,38 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	    $('#checkbox1').change(function () {
+	      $('#autoUpdate').fadeToggle();
+	    });
+	});
+</script>
+
+<style type="text/css">
+	#autoUpdate{
+    	display:none;
+	}
+
+</style>
+
 <title>Inserimento quadro</title>
 </head>
 <body>
-	<h1>Inserimento Dati Quadro</h1>
-	<form action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
-		<div>Titolo : <input type = "text" th:field = "*{titolo}"/> 
-			<span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error</span> 
-		</div>
-		<div>Anno : <input type = "date" th:field = "*{anno}"/> 
-			<span th:if="${#fields.hasErrors('anno')}" th:text="#{label.mandatory}">Error</span>
-		</div>
-		<div>Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
-			<span th:if="${#fields.hasErrors('tecnica')}" th:text="#{label.mandatory}">Error</span>
-		</div>
-		<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
-			<span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
-		</div>
-		
-		<div th:if = "${noAutori}">
-			Inserisci autore da lista? <input type = "checkbox" name = "inserisciDaLista" />
-		</div>
-		<br/>
-		<select name = "autoriEsistenti" th:if = "${noAutori}">
-			<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>
-			<option th:each="autore : ${autori}" th:text = "${autore.nome} + ' ' + ${autore.cognome}" th:value = "${autore.id}"/>
-		</select>
-		<br/>
-		<div><button type = "submit">Inserisci Dati Quadro</button></div>
-	</form>
-	<br/>
-	<form>
-		<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
-	</form>
+	<div>
+		<form action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
+			<h1>Inserimento Dati Quadro</h1>
+			<div>Titolo : <input type = "text" th:field = "*{titolo}"/> 
+				<span th:if="${#fields.hasErrors('titolo')}" th:errors = "*{titolo}">Error</span> 
+			</div>
+			<div>Anno : <input type = "text" th:field = "*{anno}"/> 
+				<span th:if="${#fields.hasErrors('anno')}" th:errors = "*{anno}">Error</span>
+			</div>
+			<div>Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
+				<span th:if="${#fields.hasErrors('tecnica')}" th:errors = "*{tecnica}">Error</span>
+			</div>
+			<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
+				<span th:if="${#fields.hasErrors('dimensioni')}" th:errors = "*{dimensioni}">Error</span>
+			</div>
+			<br/>
+			<div>Selezionare un autore già esistente? <input type="checkbox" name="inserisciAutore" id="checkbox1"/></div>
+			<div style = "margin-top:10px; margin-bottom:20px;">
+				<select name = "autoriEsistenti" id="autoUpdate" class="autoUpdate">
+					<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>
+					<option th:each="autore : ${autori}" th:text = "${autore.nome} + ' ' + ${autore.cognome}" th:value = "${autore.id}"/>
+				</select>
+			</div>
+				
+			<span><button type = "submit">Inserisci Dati Quadro</button></span>
+		</form>
+		<form action = "/" method = "GET" style = "margin-top:10px;">
+				<input type ="submit" value = "Torna alla home!"/>
+		</form>
+	</div>
 </body>
 </html>

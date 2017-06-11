@@ -1,7 +1,7 @@
 package it.uniroma3.galleria.model;
 
 
-import java.util.Date;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,15 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 @Entity
 public class Quadro {
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +28,8 @@ public class Quadro {
 	private String titolo;
 	
 	@NotNull
-	@Temporal(value = TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date anno;
+	@Max(value = 2017)
+	private Integer anno;
 	
 	@Size(min = 1)
 	@NotNull
@@ -44,7 +42,7 @@ public class Quadro {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Autore autore;
 	
-	public Quadro(String titolo, Date anno, String tecnica, String dimensioni){
+	public Quadro(String titolo, Integer anno, String tecnica, String dimensioni){
 		this.titolo = titolo;
 		this.anno = anno;
 		this.tecnica = tecnica;
@@ -66,10 +64,10 @@ public class Quadro {
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
-	public Date getAnno() {
+	public Integer getAnno() {
 		return anno;
 	}
-	public void setAnno(Date anno) {
+	public void setAnno(Integer anno) {
 		this.anno = anno;
 	}
 	public String getTecnica() {

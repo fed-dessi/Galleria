@@ -20,7 +20,7 @@
 			<span th:if="${#fields.hasErrors('dob')}" th:text="#{label.mandatory}">Error</span>
 		</div>
 		<div>Data di morte: <input type = "date" th:field = "*{dod}" th:readonly = "${inseritoCorrettamente}"/></div>
-		<div><button type = "submit" th:disabled = "${inseritoCorrettamente}">Completa inserimento quadro</button></div>
+		<div th:if = "${inseritoCorrettamente != true}"><button type = "submit">Completa inserimento quadro</button></div>
 	</form>
 	
 	<div th:if = "${inseritoCorrettamente}">

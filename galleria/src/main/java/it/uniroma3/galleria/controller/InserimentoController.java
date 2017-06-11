@@ -35,21 +35,13 @@ public class InserimentoController {
 	@GetMapping(value = "/inserimento")
 	public String inserimentoPagina(Quadro quadro, Model model){
 		List<Autore> autori = aService.getAutori();
-		System.out.println(autori == null);
-		System.out.println(autori.toString());
-		if(autori == null || autori.equals("")){
-			model.addAttribute("noAutori", false);
-		}
-		else{
-			model.addAttribute("noAutori", true);
-			model.addAttribute("autori", autori);
-		}
+		model.addAttribute("autori", autori);
 		return "inserimento";
 	}
 	
 	//Inseriamo prima le informazioni del quadro
 	@PostMapping(value = "/inserimento")
-	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, HttpServletRequest request, @RequestParam(value = "autoriEsistenti", required = false) Long autoriEsistenti, Model model){
+	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, HttpServletRequest request, @RequestParam(value = "autoriEsistenti", required = false) Long autoriEsistenti, @RequestParam(value = "inserisciAutore", required = false) String inserisciAutore, Model model){
 
 		if(bindingResult.hasErrors()){
 			
@@ -59,7 +51,7 @@ public class InserimentoController {
 		    }
 		    return "inserimento";
 		//Controllo se l'utente ha deciso di usare il menu a tendina per scegliere un autore gia' esistente
-		}else if(autoriEsistenti != null){
+		}else if(inserisciAutore != null){
 			Autore autore = aService.getOneAutore(autoriEsistenti);
 			quadro.setAutore(autore);
 			service.inserisciQuadro(quadro);
