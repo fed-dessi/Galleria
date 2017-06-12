@@ -20,9 +20,8 @@ public class UtenteService {
 		
 	}
 	
-	public Utente inserisciUtente(Utente utente) {
+	public void inserisciUtente(Utente utente) {
 		repository.save(utente);
-		return utente;
 	}
 
 	
@@ -37,6 +36,11 @@ public class UtenteService {
 	
 	public Utente getUtenteByEmail(String email){
 		Utente utente = repository.findByEmail(email);
+		return utente;
+	}
+	
+	public Utente getUtenteByUsername(String username){
+		Utente utente = repository.findByUsername(username);
 		return utente;
 	}
 }

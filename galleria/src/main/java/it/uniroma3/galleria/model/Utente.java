@@ -1,36 +1,53 @@
 package it.uniroma3.galleria.model;
 
 
+
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Utente{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String email;
+	@NotNull
+	private String username;
+	@NotNull
 	private String password;
+	@NotNull
+	private boolean enabled;
+	private String email;
 	private String nome;
 	private String cognome;
+	@OneToMany(mappedBy = "utente")
+	private List<RuoliUtente> ruoliUtente;
+
 	
-	public Utente(){
-		
-	}
-	
-	public Utente(String email){
-		this.email = email;
-	}
-	
-	public Utente(String email, String password, String nome, String cognome, String permessi){
+	public Utente(String email, String password, String nome, String cognome, String permessi, boolean enabled, List<RuoliUtente> ruoliUtente){
 		this.email = email;
 		this.password = password;
 		this.nome = nome;
 		this.cognome = cognome;
+		this.enabled = enabled;
+		this.ruoliUtente = ruoliUtente;
 	}
 
+	public Utente(String username, String password, boolean enabled) {
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+	}
+
+	public Utente(){
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,5 +88,31 @@ public class Utente{
 		this.cognome = cognome;
 	}
 	
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public List<RuoliUtente> getRuoliUtente() {
+		return ruoliUtente;
+	}
+
+	public void setRuoliUtente(List<RuoliUtente> ruoliUtente) {
+		this.ruoliUtente = ruoliUtente;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	
 }

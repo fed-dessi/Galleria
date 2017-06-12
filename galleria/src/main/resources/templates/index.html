@@ -1,12 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Galleria D'arte</title>
 </head>
 <body>
+		<div sec:authorize="!isAuthenticated()">
+		    <form action="#" th:action="@{/login}" method="post" style="display:inline-block">					
+               Username: <input type="text" name="username" style="margin-right:5px"/>
+               Password: <input type="password" name="password" style="margin-right:5px"/> 
+               <input type="submit" value="Login" />
+            </form>
+            <span th:if="${param.logout}" style="margin-right:5px; margin-left:5px; display:inline-block">Hai effettuato il logout correttamente</span>
+            <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span>
+		</div>
+        <div sec:authorize="isAuthenticated()">		
+            Logged in user: <span sec:authentication="name"></span> |					
+            Roles: <span sec:authentication="principal.authorities"></span>				
+            <div style="display:inline-block">
+                <form action="#" th:action="@{/logout}" method="post">					
+                    <input type="submit" value="Logout" />
+                </form>
+            </div>
+        </div>
 	<h1>Benvenuto nel sito web della Galleria!</h1>
-	<a href = "inserimento">Clicca qui</a> per andare all'inserimento di un quadro!
+	<span sec:authorize = "hasAuthority('ADMIN')">
+		<a href = "inserimento">Clicca qui</a> per andare all'inserimento di un quadro!
+	</span>
 	<a href = "lista">Lista quadri</a>
 </body>
 </html>

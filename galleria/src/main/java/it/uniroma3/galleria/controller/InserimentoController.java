@@ -36,7 +36,7 @@ public class InserimentoController {
 	public String inserimentoPagina(Quadro quadro, Model model){
 		List<Autore> autori = aService.getAutori();
 		model.addAttribute("autori", autori);
-		return "inserimento";
+		return "/inserimento/inserimento";
 	}
 	
 	//Inseriamo prima le informazioni del quadro
@@ -49,7 +49,7 @@ public class InserimentoController {
 		    for (FieldError error : errors ) {
 		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
 		    }
-		    return "inserimento";
+		    return "/inserimento/inserimento";
 		//Controllo se l'utente ha deciso di usare il menu a tendina per scegliere un autore gia' esistente
 		}else if(inserisciAutore != null){
 			Autore autore = aService.getOneAutore(autoriEsistenti);
@@ -58,13 +58,13 @@ public class InserimentoController {
 			model.addAttribute("inseritoCorrettamente", true);
 			model.addAttribute(quadro);
 			model.addAttribute(autore);
-			return "inserimentoAutore";
+			return "/inserimento/inserimentoAutore";
 		}else{
 			//Oltre ad aggiungere quadro al model, poiche' ho dichiarato il parametro "quadro" come @SessionAttributes allora verra' catturato nella sessione
 			model.addAttribute(quadro);
 			Autore autore = new Autore();
 			model.addAttribute(autore);
-			return "inserimentoAutore";
+			return "/inserimento/inserimentoAutore";
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class InserimentoController {
 		    for (FieldError error : errors ) {
 		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
 		    }
-			return "inserimentoAutore";
+			return "/inserimento/inserimentoAutore";
 		}
 		
 
@@ -91,6 +91,6 @@ public class InserimentoController {
 		//reinserisco i dati di quadro per poter visualizzare il messaggio di successo
 		model.addAttribute(quadro);
 		model.addAttribute("inseritoCorrettamente", true);
-		return "inserimentoAutore";
+		return "/inserimento/inserimentoAutore";
 	}
 }

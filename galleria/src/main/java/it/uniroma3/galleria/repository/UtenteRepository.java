@@ -10,5 +10,7 @@ public interface UtenteRepository extends CrudRepository<Utente, Long> {
 
 	Utente findByEmail(String email);
 	
+	Utente findByUsername(String username);
+	
 
 }
