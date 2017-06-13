@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
         .authorizeRequests()
-        	.antMatchers("/").permitAll()
+        	.antMatchers("/", "/register").permitAll()
         	.antMatchers("/inserimento/**").access("hasAuthority('ADMIN')")
             .anyRequest().authenticated()
             .and()
@@ -58,7 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .failureUrl("/?error")
             .and()
         .logout()
-        .logoutSuccessUrl("/?logout")
-           .permitAll();
+        	.logoutSuccessUrl("/?logout")
+            .permitAll()
+            .and()
+        .sessionManagement()
+        	.maximumSessions(1)
+        	.expiredUrl("/login?expired");
     }
 }

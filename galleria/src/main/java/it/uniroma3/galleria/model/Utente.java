@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Utente{
@@ -17,13 +18,20 @@ public class Utente{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@NotNull
+	@Size(min = 1)
 	private String username;
 	@NotNull
+	@Size(min = 1)
 	private String password;
-	@NotNull
 	private boolean enabled;
+	@Size(min = 1)
+	@NotNull
 	private String email;
+	@Size(min = 1)
+	@NotNull
 	private String nome;
+	@Size(min = 1)
+	@NotNull
 	private String cognome;
 	@OneToMany(mappedBy = "utente")
 	private List<RuoliUtente> ruoliUtente;

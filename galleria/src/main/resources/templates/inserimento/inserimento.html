@@ -12,12 +12,6 @@
 	});
 </script>
 
-<style type="text/css">
-	#autoUpdate{
-    	display:none;
-	}
-</style>
-
 <title>Inserimento quadro</title>
 </head>
 <body>
@@ -36,8 +30,7 @@
 			<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
 				<span th:if="${#fields.hasErrors('dimensioni')}" th:errors = "*{dimensioni}">Error</span>
 			</div>
-			<br/>
-			<div>Selezionare un autore già esistente? <input type="checkbox" name="inserisciAutore" id="checkbox1"/></div>
+			<div style = "margin-top:10px">Creare un autore nuovo? <input type="checkbox" name="inserisciAutore" id="checkbox1"/></div>
 			<div style = "margin-top:10px; margin-bottom:20px;">
 				<select name = "autoriEsistenti" id="autoUpdate" class="autoUpdate">
 					<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>

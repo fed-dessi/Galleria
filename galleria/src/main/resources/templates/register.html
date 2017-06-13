@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+	function checkPasswordMatch() {
+	    var password = $("#Password").val();
+	    var confirmPassword = $("#ConfermaPassword").val();
+	
+	    if (password != confirmPassword){
+	       	 	$("#spanCheckPasswordMatch").html("Password diverse");
+	       	 	$('#spanCheckPasswordMatch').css("color", "red");
+	       	 	$('#Password').css("border", "1px solid red");
+	       	 	$('#ConfermaPassword').css("border", "1px solid red");
+	        	$('#submit').prop('disabled', true);
+	    	}
+	    else{
+	        $("#spanCheckPasswordMatch").html("Le password sono uguali!");
+       	 	$('#spanCheckPasswordMatch').css("color", "green");
+       	 	$('#Password').css("border", "1px solid green");
+       	 	$('#ConfermaPassword').css("border", "1px solid green");
+	        $('#submit').prop('disabled', false);
+	    }
+	}
+	
+	$(document).ready(function () {
+	   $("#Password, #ConfermaPassword").keyup(checkPasswordMatch);
+	});
+</script>
+
+<title>Registra nuovo Utente</title>
+</head>
+<body>
+	<div>
+		<form action="#" th:action = "@{/register}" th:object = "${utente}" method = "POST">
+			<h1>Inserisci i tuoi dati:</h1>
+			<div>Username : <input type = "text" th:field = "*{username}"/> 
+				<span th:if="${#fields.hasErrors('username')}" th:errors = "*{username}">Error</span>
+				<span th:if ="${usernameEsistente}" style= "color:red">Username gia' esistente, selezionane un altro!</span> 
+			</div>
+			
+			<div>Password: <input type = "password" id ="Password" th:field = "*{password}" th:value ="${confermaPassword}"/> 
+				<span th:if="${#fields.hasErrors('password')}" th:errors = "*{password}">Error</span>
+			</div>
+			
+			<div>Conferma Password: <input type = "password" id ="ConfermaPassword" name ="ConfermaPassword" th:value ="${confermaPassword}"/> 
+				<span id="spanCheckPasswordMatch"></span>
+			</div>
+			
+			<div>Email: <input type = "text" th:field = "*{email}"/> 
+				<span th:if="${#fields.hasErrors('email')}" th:errors = "*{email}">Error</span>
+			</div>
+			
+			<div>Nome: <input type = "text" th:field = "*{nome}"/> 
+				<span th:if="${#fields.hasErrors('nome')}" th:errors = "*{nome}">Error</span>
+			</div>
+			
+			<div>Cognome: <input type = "text" th:field = "*{cognome}"/> 
+				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
+			</div>
+
+			<span><input type = "submit" value = "Registra Utente" id = "submit"/></span>
+		</form>
+		<form action = "/" method = "GET" style = "margin-top:10px;">
+				<input type ="submit" value = "Torna alla home!"/>
+		</form>
+	</div>
+	<div th:if = "${utenteInserito}">
+		<h3 th:text = "'Utente ' + ${utente.username} + ' inserito correttamente!'"></h3>
+	</div>
+</body>
+</html>
