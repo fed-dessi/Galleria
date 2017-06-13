@@ -10,8 +10,6 @@
 <ul>
 		<li th:each="utente : ${utenti}">
 			<a th:href="@{/dettagliUtente(id=${utente.id})}" th:text="${utente.username}"></a>
-			
-			
 		</li>
 	</ul>
 	<div th:if="${cancellato}">

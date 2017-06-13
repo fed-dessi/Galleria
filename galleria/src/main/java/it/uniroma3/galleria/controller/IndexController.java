@@ -24,6 +24,11 @@ public class IndexController {
 	AutoreService aService;
 	
 	@GetMapping(value = "/")
+	public String indexSlash(){
+		return "index";
+	}
+	
+	@GetMapping(value = "/index")
 	public String index(){
 		return "index";
 	}

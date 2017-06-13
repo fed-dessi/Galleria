@@ -1,4 +1,4 @@
-package it.uniroma3.galleriaSpring;
+package it.uniroma3.galleria;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

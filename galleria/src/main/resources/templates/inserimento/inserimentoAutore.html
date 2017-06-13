@@ -32,7 +32,7 @@
 	<div th:if = "${inseritoCorrettamente}">
 		<h3 th:text = "'Quadro ' + ${quadro.titolo} + ' inserito correttamente!'"></h3>	
 		
-		<form action ="/" method = "GET">
+		<form action ="index" method = "GET">
 			<button type = "submit">Torna alla home!</button>
 			<button type ="submit" form ="inserimentoForm" style = "disply:inline; margin-left: 5px">Inserisci nuovo quadro</button>
 		</form>

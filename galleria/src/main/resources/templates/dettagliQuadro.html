@@ -14,7 +14,7 @@
 	<h3><a th:href="@{/dettagliAutore(id=${quadro.autore.id})}" th:text = "'Creato da: ' + ${quadro.autore.nome} + ' ' +  ${quadro.autore.cognome}"></a></h3>
 	
 	<form>
-		<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
+		<button formaction = "index" type = "submit" formmethod = "GET">Torna alla home!</button>
 	</form>
 	<form>
 		<button formaction = "/lista" type = "submit" formmethod = "GET">Torna alla lista!</button>
