@@ -3,6 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Galleria D'arte</title>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+	//nasconde i messaggi di conferma dopo 2 secondi
+	var fade_out = function() {
+  		$("#logoutSuccesso").fadeOut();
+  		$("#sessione").fadeOut();
+  		$("#inserito").fadeOut();
+	}
+
+	setTimeout(fade_out, 2000);
+</script>
 </head>
 <body>
 		<div sec:authorize="!isAuthenticated()">
@@ -11,12 +22,15 @@
                Password: <input type="password" name="password" style="margin-right:5px"/> 
                <input type="submit" value="Login" />
             </form>
-            <span th:if="${param.logout}" style="margin-left:5px; display:inline-block">Hai effettuato il logout correttamente</span>
-            <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span>
-            <span th:if="${param.expired}" style="margin-left:5px; display:inline-block">La tua sessione e' scaduta.</span>
             <form action="#" th:action="@{/register}" method="get" style="display:inline-block; margin-left:10px">
                <input type="submit" value="Registrati" />
             </form>
+            <span th:if="${param.logout}" style="margin-left:5px; display:inline-block" id = "logoutSuccesso">Hai effettuato il logout correttamente</span>
+            <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span>
+            <span th:if="${param.expired}" style="margin-left:5px; display:inline-block" id = "sessione">La tua sessione e' scaduta.</span>
+            <span th:if="${utenteInserito}" style="margin-left:5px; display:inline-block" id = "inserito">
+            	Utente <b th:text = "${utente.username}"></b> inserito correttamente!
+            </span>
 		</div>
         <div sec:authorize="isAuthenticated()">		
             Logged in user: <span sec:authentication="name"></span> |					

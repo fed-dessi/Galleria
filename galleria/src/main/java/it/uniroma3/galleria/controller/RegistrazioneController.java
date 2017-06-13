@@ -60,7 +60,7 @@ public class RegistrazioneController {
 			ruService.inserisciRuoliUtente(ru);
 			model.addAttribute(utente);
 			model.addAttribute("utenteInserito", true);
-			return "/register";
+			return "/index";
 		}
 		return "/register";
 	}

@@ -61,14 +61,11 @@
 				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
 			</div>
 
-			<span th:if = "${utenteInserito != true}"><input type = "submit" value = "Registra Utente" id = "submit"/></span>
+			<span><input type = "submit" value = "Registra Utente" id = "submit"/></span>
 		</form>
 		<form action = "/" method = "GET" style = "margin-top:10px;">
 				<input type ="submit" value = "Torna alla home!"/>
 		</form>
-	</div>
-	<div th:if = "${utenteInserito}">
-		<h3 th:text = "'Utente ' + ${utente.username} + ' inserito correttamente!'"></h3>
 	</div>
 </body>
 </html>
