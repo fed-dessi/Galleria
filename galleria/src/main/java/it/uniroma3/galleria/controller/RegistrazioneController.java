@@ -14,7 +14,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.galleria.model.RuoloUtente;
 import it.uniroma3.galleria.model.Utente;
@@ -36,7 +35,7 @@ public class RegistrazioneController {
 	}
 	
 	@PostMapping(value = "/register")
-	public String registraUtente(@Valid @ModelAttribute Utente utente, BindingResult bindingResult, HttpServletRequest request, @RequestParam(value = "ConfermaPassword", required = false) String confermaPassword,Model model){
+	public String registraUtente(@Valid @ModelAttribute Utente utente, BindingResult bindingResult, HttpServletRequest request, Model model){
 		
 		if(bindingResult.hasErrors()){
 		    List<FieldError> errors = bindingResult.getFieldErrors();
@@ -48,7 +47,6 @@ public class RegistrazioneController {
 		if(uService.getUtenteByUsername(utente.getUsername()) != null){
 			if(uService.getUtenteByUsername(utente.getUsername()).getUsername().equals(utente.getUsername())){
 				model.addAttribute("usernameEsistente", true);
-				model.addAttribute("confermaPassword", confermaPassword);
 				return "/register";
 			}
 		}else{
@@ -56,8 +54,7 @@ public class RegistrazioneController {
 			String password = passwordEncoder.encode(utente.getPassword());
 			utente.setPassword(password);
 			utente.setEnabled(true);
-			RuoloUtente ru = new RuoloUtente("USER");
-			ru.setUsername(utente.getUsername());
+			RuoloUtente ru = new RuoloUtente("USER", utente.getUsername());
 			utente.setRuoliUtente(ru);
 			uService.inserisciUtente(utente);
 			model.addAttribute(utente);

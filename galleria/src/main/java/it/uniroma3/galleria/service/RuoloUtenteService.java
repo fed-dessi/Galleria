@@ -21,9 +21,5 @@ public class RuoloUtenteService {
 	public void inserisciRuoloUtente(RuoloUtente ru){
 		repository.save(ru);
 	}
-	public RuoloUtente getByUsername(String username){	
-	RuoloUtente ru= repository.findByUsername(username);
-		return ru;
-		
-	}
+	
 }

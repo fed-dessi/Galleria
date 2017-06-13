@@ -7,29 +7,37 @@
 <body>
 	<form action = "#" th:action = "@{/inserimentoAutore}" th:object = "${autore}" method = "POST">
 		<h1 th:text="'Inserimento autore di: ' + ${quadro.titolo}"></h1>
-		<div>Nome autore: <input type = "text" th:field = "*{nome}" th:readonly = "${inseritoCorrettamente}"/>
+		
+		<div style = "margin-top:10px">Nome autore: <input type = "text" th:field = "*{nome}" th:readonly = "${inseritoCorrettamente}"/>
 			<span th:if="${#fields.hasErrors('nome')}" th:text="#{label.mandatory}">Error</span>
 		</div>
-		<div>Cognome autore: <input type = "text" th:field = "*{cognome}" th:readonly = "${inseritoCorrettamente}"/>
+		
+		<div style = "margin-top:10px">Cognome autore: <input type = "text" th:field = "*{cognome}" th:readonly = "${inseritoCorrettamente}"/>
 			<span th:if="${#fields.hasErrors('cognome')}" th:text="#{label.mandatory}">Error</span>
 		</div>
-		<div>Nazionalita: <input type = "text" th:field = "*{nazionalita}" th:readonly = "${inseritoCorrettamente}"/>
+		
+		<div style = "margin-top:10px">Nazionalita: <input type = "text" th:field = "*{nazionalita}" th:readonly = "${inseritoCorrettamente}"/>
 			<span th:if="${#fields.hasErrors('nazionalita')}" th:text="#{label.mandatory}">Error</span>
 		</div>
-		<div>Data di nascita: <input type = "date" th:field = "*{dob}" th:readonly = "${inseritoCorrettamente}"/>
+		
+		<div style = "margin-top:10px">Data di nascita: <input type = "date" th:field = "*{dob}" th:readonly = "${inseritoCorrettamente}"/>
 			<span th:if="${#fields.hasErrors('dob')}" th:text="#{label.mandatory}">Error</span>
 		</div>
-		<div>Data di morte: <input type = "date" th:field = "*{dod}" th:readonly = "${inseritoCorrettamente}"/></div>
-		<div th:if = "${inseritoCorrettamente != true}"><button type = "submit">Completa inserimento quadro</button></div>
+		
+		<div style = "margin-top:10px">Data di morte: <input type = "date" th:field = "*{dod}" th:readonly = "${inseritoCorrettamente}"/></div>
+		
+		<div th:if = "${inseritoCorrettamente != true}"><button type = "submit" style = "margin-top:10px">Completa inserimento quadro</button></div>
 	</form>
 	
 	<div th:if = "${inseritoCorrettamente}">
 		<h3 th:text = "'Quadro ' + ${quadro.titolo} + ' inserito correttamente!'"></h3>	
-		<form>
-			<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
+		
+		<form action ="/" method = "GET">
+			<button type = "submit">Torna alla home!</button>
+			<button type ="submit" form ="inserimentoForm" style = "disply:inline; margin-left: 5px">Inserisci nuovo quadro</button>
 		</form>
-		<form>
-			<button formaction = "/inserimento" type = "submit" formmethod = "GET">Inserisci nuovo quadro</button>
+		
+		<form action ="/inserimento" method = "GET" id="inserimentoForm">
 		</form>
 	</div>
 </body>

@@ -18,30 +18,42 @@
 	<div>
 		<form action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
 			<h1>Inserimento Dati Quadro</h1>
-			<div>Titolo : <input type = "text" th:field = "*{titolo}"/> 
+			
+			<div style = "margin-top:10px">Titolo : <input type = "text" th:field = "*{titolo}"/> 
 				<span th:if="${#fields.hasErrors('titolo')}" th:errors = "*{titolo}">Error</span> 
 			</div>
-			<div>Anno : <input type = "text" th:field = "*{anno}"/> 
+			
+			<div style = "margin-top:10px">Anno : <input type = "text" th:field = "*{anno}"/> 
 				<span th:if="${#fields.hasErrors('anno')}" th:errors = "*{anno}">Error</span>
 			</div>
-			<div>Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
+			
+			<div style = "margin-top:10px">Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
 				<span th:if="${#fields.hasErrors('tecnica')}" th:errors = "*{tecnica}">Error</span>
 			</div>
-			<div>Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
+			
+			<div style = "margin-top:10px">Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
 				<span th:if="${#fields.hasErrors('dimensioni')}" th:errors = "*{dimensioni}">Error</span>
 			</div>
-			<div style = "margin-top:10px">Creare un autore nuovo? <input type="checkbox" name="inserisciAutore" id="checkbox1"/></div>
-			<div style = "margin-top:10px; margin-bottom:20px;">
-				<select name = "autoriEsistenti" id="autoUpdate" class="autoUpdate">
-					<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>
-					<option th:each="autore : ${autori}" th:text = "${autore.nome} + ' ' + ${autore.cognome}" th:value = "${autore.id}"/>
-				</select>
+			
+			<div style = "margin-top:10px">
+				<div>
+					<label for ="checkbox1" style = "margin-top:10px">Creare un autore nuovo? </label>
+					<input type="checkbox" name="inserisciAutore" id="checkbox1"/>
+				</div>
+				
+				<div style = "margin-top:10px; margin-bottom:20px;">
+					<select name = "autoriEsistenti" id="autoUpdate" class="autoUpdate">
+						<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>
+						<option th:each="autore : ${autori}" th:text = "${autore.nome} + ' ' + ${autore.cognome}" th:value = "${autore.id}"/>
+					</select>
+				</div>
 			</div>
 				
 			<span><button type = "submit">Inserisci Dati Quadro</button></span>
+			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
 		</form>
-		<form action = "/" method = "GET" style = "margin-top:10px;">
-				<input type ="submit" value = "Torna alla home!"/>
+		
+		<form action = "/" method = "GET" id ="homeForm">
 		</form>
 	</div>
 </body>

@@ -5,6 +5,8 @@
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="text/javascript">
+	//questa funzione mi controlla che il valore inserito dentro il campo password, e quello conferma password siano uguali
+	//altrimenti applica un po' di magia CSS e ci da qualche errore visivo. In questo modo evito di confermare la password nel back-end
 	function checkPasswordMatch() {
 	    var password = $("#Password").val();
 	    var confirmPassword = $("#ConfermaPassword").val();
@@ -41,30 +43,31 @@
 				<span th:if ="${usernameEsistente}" style= "color:red">Username gia' esistente, selezionane un altro!</span> 
 			</div>
 			
-			<div>Password: <input type = "password" id ="Password" th:field = "*{password}" th:value ="${confermaPassword}"/> 
+			<div style = "margin-top:10px">Password: <input type = "password" id ="Password" th:field = "*{password}" th:value ="${confermaPassword}"/> 
 				<span th:if="${#fields.hasErrors('password')}" th:errors = "*{password}">Error</span>
 			</div>
 			
-			<div>Conferma Password: <input type = "password" id ="ConfermaPassword" name ="ConfermaPassword" th:value ="${confermaPassword}"/> 
+			<div style = "margin-top:10px">Conferma Password: <input type = "password" id ="ConfermaPassword" name ="ConfermaPassword" th:value ="${confermaPassword}"/> 
 				<span id="spanCheckPasswordMatch"></span>
 			</div>
 			
-			<div>Email: <input type = "text" th:field = "*{email}"/> 
+			<div style = "margin-top:10px">Email: <input type = "text" th:field = "*{email}"/> 
 				<span th:if="${#fields.hasErrors('email')}" th:errors = "*{email}">Error</span>
 			</div>
 			
-			<div>Nome: <input type = "text" th:field = "*{nome}"/> 
+			<div style = "margin-top:10px">Nome: <input type = "text" th:field = "*{nome}"/> 
 				<span th:if="${#fields.hasErrors('nome')}" th:errors = "*{nome}">Error</span>
 			</div>
 			
-			<div>Cognome: <input type = "text" th:field = "*{cognome}"/> 
+			<div style = "margin-top:10px">Cognome: <input type = "text" th:field = "*{cognome}"/> 
 				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
 			</div>
 
 			<span><input type = "submit" value = "Registra Utente" id = "submit"/></span>
+			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
 		</form>
-		<form action = "/" method = "GET" style = "margin-top:10px;">
-				<input type ="submit" value = "Torna alla home!"/>
+		
+		<form action = "/" method = "GET" id ="homeForm">
 		</form>
 	</div>
 </body>

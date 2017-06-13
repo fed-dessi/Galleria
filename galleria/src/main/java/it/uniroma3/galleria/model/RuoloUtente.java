@@ -24,14 +24,10 @@ public class RuoloUtente {
 	public RuoloUtente(){
 		
 	}
-	public RuoloUtente(String ruolo){
-		this.ruolo=ruolo;
-		
-	}
 	
-	public RuoloUtente(String ruolo, List<Utente> utenti){
-		this.ruolo = ruolo;
-		this.utenti = utenti;
+	public RuoloUtente(String ruolo, String username){
+		this.ruolo=ruolo;
+		this.username = username;
 	}
 	
 	public Long getId() {

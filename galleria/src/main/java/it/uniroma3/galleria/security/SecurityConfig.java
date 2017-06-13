@@ -4,7 +4,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		.passwordEncoder(new BCryptPasswordEncoder())
 		.usersByUsernameQuery("SELECT username,password,1 FROM utente where username=?")
-		.authoritiesByUsernameQuery("SELECT username,ruoli FROM ruoli_utente where username=?");
+		.authoritiesByUsernameQuery("SELECT username,ruolo FROM ruolo_utente where username=?");
 	}
 
 	private InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder>

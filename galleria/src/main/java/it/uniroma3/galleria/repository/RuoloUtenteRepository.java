@@ -6,6 +6,5 @@ import it.uniroma3.galleria.model.RuoloUtente;
 
 public interface RuoloUtenteRepository extends CrudRepository<RuoloUtente, Long> {
 	
-	 RuoloUtente findByUsername(String username);
 	
 }

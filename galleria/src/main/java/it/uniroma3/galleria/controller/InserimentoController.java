@@ -84,8 +84,6 @@ public class InserimentoController {
 		    }
 			return "/inserimento/inserimentoAutore";
 		}
-		
-
 		//Ottengo i dati del quadro dal parametro di sessione "quadro"
 		quadro.setAutore(autore);
 		service.inserisciQuadro(quadro);

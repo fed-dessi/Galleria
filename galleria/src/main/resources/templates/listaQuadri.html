@@ -8,7 +8,13 @@
 	<h1>Lista Quadri visualizzabili:</h1>
 	<ul>
 		<li th:each="quadro : ${quadri}">
-			<a th:href="@{/dettagli(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
+			<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
+		</li>
+	</ul>
+	<h1>Lista Autori Disponibili:</h1>
+	<ul>
+		<li th:each="autore : ${autori}">
+			<a th:href="@{/dettagliAutore(id=${autore.id})}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
 		</li>
 	</ul>
 	<div><a href = "/">Torna alla home page</a></div>

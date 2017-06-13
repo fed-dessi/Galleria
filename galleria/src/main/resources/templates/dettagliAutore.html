@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title th:text = "'Dettagli di: ' + ${autore.nome} + ' ' + ${autore.cognome}">Insert title here</title>
+</head>
+<body>
+	<h1 th:text = "'Dettagli di: ' + ${autore.nome} + ' ' + ${autore.cognome}">Quadro</h1>
+	<ul>
+		<li th:text = "'Nome: ' + ${autore.nome}"></li>
+		<li th:text = "'Cognome: ' + ${autore.cognome}"></li>
+		<li th:text = "'Nazionalita: ' + ${autore.nazionalita}"></li>
+		<li th:text = "'Data di Nascita: ' + ${autore.dob}"></li>
+		<li th:switch ="${autore.dod == null}">
+			<span th:case = "false" th:text = "'Data di morte: ' + ${autore.dod}"></span>
+			<span th:case = "true" th:text = "'Data di morte: '"></span>
+		</li>
+	</ul>
+	
+	<h3 th:text = "'Quadri creati da: ' + ${autore.nome} + ' ' + ${autore.cognome}">Quadri creati da Autore:</h3>
+	<ul>
+		<li th:each="quadro : ${quadri}">
+			<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
+		</li>
+	</ul>
+	<form>
+		<button formaction = "/" type = "submit" formmethod = "GET">Torna alla home!</button>
+	</form>
+	<form>
+		<button formaction = "/lista" type = "submit" formmethod = "GET">Torna alla lista!</button>
+	</form>
+</body>
+</html>
