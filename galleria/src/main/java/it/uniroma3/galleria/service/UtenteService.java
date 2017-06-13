@@ -2,6 +2,8 @@ package it.uniroma3.galleria.service;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,9 @@ public class UtenteService {
 	
 	@Autowired    
 	private UtenteRepository repository;
-
+	
+	
+	
 	public UtenteService() {
 		
 	}
@@ -43,4 +47,12 @@ public class UtenteService {
 		Utente utente = repository.findByUsername(username);
 		return utente;
 	}
+	public List<Utente> findAll(){
+		List<Utente> utenti= repository.findAll();
+		return utenti;
+	}
+	public void modificaUtente(Utente utente){
+		repository.save(utente);
+	}
+	
 }

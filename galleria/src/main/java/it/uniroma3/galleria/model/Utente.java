@@ -2,15 +2,19 @@ package it.uniroma3.galleria.model;
 
 
 
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 public class Utente{
@@ -26,6 +30,7 @@ public class Utente{
 	private boolean enabled;
 	@Size(min = 1)
 	@NotNull
+	@Email
 	private String email;
 	@Size(min = 1)
 	@NotNull
@@ -33,17 +38,17 @@ public class Utente{
 	@Size(min = 1)
 	@NotNull
 	private String cognome;
-	@OneToMany(mappedBy = "utente")
-	private List<RuoliUtente> ruoliUtente;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private RuoloUtente ruoloUtente;
 
 	
-	public Utente(String email, String password, String nome, String cognome, String permessi, boolean enabled, List<RuoliUtente> ruoliUtente){
+	public Utente(String email, String password, String nome, String cognome, String permessi, boolean enabled, RuoloUtente ruoloUtente){
 		this.email = email;
 		this.password = password;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.enabled = enabled;
-		this.ruoliUtente = ruoliUtente;
+		this.ruoloUtente = ruoloUtente;
 	}
 
 	public Utente(String username, String password, boolean enabled) {
@@ -106,12 +111,12 @@ public class Utente{
 	}
 
 
-	public List<RuoliUtente> getRuoliUtente() {
-		return ruoliUtente;
+	public RuoloUtente getRuoliUtente() {
+		return ruoloUtente;
 	}
 
-	public void setRuoliUtente(List<RuoliUtente> ruoliUtente) {
-		this.ruoliUtente = ruoliUtente;
+	public void setRuoliUtente(RuoloUtente ruoloUtente) {
+		this.ruoloUtente = ruoloUtente;
 	}
 
 	public boolean isEnabled() {

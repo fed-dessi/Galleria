@@ -48,7 +48,10 @@ public class InserimentoController {
 		    List<FieldError> errors = bindingResult.getFieldErrors();
 		    for (FieldError error : errors ) {
 		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
+		        
 		    }
+		    List<Autore> autori = aService.getAutori();
+			model.addAttribute("autori", autori);
 		    return "/inserimento/inserimento";
 		//Controllo se l'utente ha deciso di usare il menu a tendina per scegliere un autore gia' esistente
 		}else if(inserisciAutore == null){

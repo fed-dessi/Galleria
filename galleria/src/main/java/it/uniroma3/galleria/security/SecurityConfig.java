@@ -4,7 +4,9 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,13 +22,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //Indico a Spring Security dove andare a prendere gli utenti, e dove andare a prendere i ruoli dei vari utenti, e che deve usare BCrypt per decriptare gli hash dal database
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
+		 inMemoryConfigurer()
+	        .withUser("pippo")
+	            .password("pippo123")
+	            .authorities("ADMIN")
+	        .and()
+	        .configure(auth);
 		auth.jdbcAuthentication().dataSource(dataSource)
 		
 		.passwordEncoder(new BCryptPasswordEncoder())
 		.usersByUsernameQuery("SELECT username,password,1 FROM utente where username=?")
 		.authoritiesByUsernameQuery("SELECT username,ruoli FROM ruoli_utente where username=?");
 	}
+
+	private InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder>
+    inMemoryConfigurer() {
+	return new InMemoryUserDetailsManagerConfigurer<>();
+}
+	
+
+
 	
 	/*In configure() sto indicando al filtro(Spring Security) che pagine sono disponibili a chiunque, e che pagine bisogna effettuare il login,
 	 * inoltre specifico le pagine di login e la modalita' di logout (e' standard). 

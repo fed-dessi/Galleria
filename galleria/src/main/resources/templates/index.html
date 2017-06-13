@@ -46,5 +46,10 @@
 		<a href = "inserimento">Clicca qui</a> per andare all'inserimento di un quadro!
 	</span>
 	<a href = "lista">Lista quadri</a>
+		<span sec:authorize = "hasAuthority('ADMIN')">
+				<a href = "admin">Clicca qui</a> per Andare al pannello di controllo!
+		</span>
+		
+	
 </body>
 </html>

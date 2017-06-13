@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import it.uniroma3.galleria.model.RuoliUtente;
+import it.uniroma3.galleria.model.RuoloUtente;
 import it.uniroma3.galleria.model.Utente;
-import it.uniroma3.galleria.service.RuoliUtenteService;
+import it.uniroma3.galleria.service.RuoloUtenteService;
 import it.uniroma3.galleria.service.UtenteService;
 
 @Controller
@@ -28,7 +28,7 @@ public class RegistrazioneController {
 	@Autowired
 	UtenteService uService;
 	@Autowired
-	RuoliUtenteService ruService;
+	RuoloUtenteService ruService;
 	
 	@GetMapping(value = "/register")
 	public String register(Utente utente, Model model){
@@ -56,8 +56,10 @@ public class RegistrazioneController {
 			String password = passwordEncoder.encode(utente.getPassword());
 			utente.setPassword(password);
 			utente.setEnabled(true);
-			RuoliUtente ru = new RuoliUtente("USER", utente);
-			ruService.inserisciRuoliUtente(ru);
+			RuoloUtente ru = new RuoloUtente("USER");
+			ru.setUsername(utente.getUsername());
+			utente.setRuoliUtente(ru);
+			uService.inserisciUtente(utente);
 			model.addAttribute(utente);
 			model.addAttribute("utenteInserito", true);
 			return "/index";

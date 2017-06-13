@@ -28,8 +28,8 @@ public class Quadro {
 	private String titolo;
 	
 	@NotNull
-	@Max(value = 2017)
-	private Integer anno;
+	@Max(value=2017)
+	private int anno;
 	
 	@Size(min = 1)
 	@NotNull
@@ -42,7 +42,7 @@ public class Quadro {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Autore autore;
 	
-	public Quadro(String titolo, Integer anno, String tecnica, String dimensioni){
+	public Quadro(String titolo, int anno, String tecnica, String dimensioni){
 		this.titolo = titolo;
 		this.anno = anno;
 		this.tecnica = tecnica;
@@ -64,10 +64,10 @@ public class Quadro {
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
-	public Integer getAnno() {
+	public int getAnno() {
 		return anno;
 	}
-	public void setAnno(Integer anno) {
+	public void setAnno(int anno) {
 		this.anno = anno;
 	}
 	public String getTecnica() {
