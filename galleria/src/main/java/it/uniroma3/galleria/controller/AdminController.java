@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.RuoloUtente;
 import it.uniroma3.galleria.model.Utente;
+import it.uniroma3.galleria.service.AutoreService;
+import it.uniroma3.galleria.service.QuadroService;
 import it.uniroma3.galleria.service.UtenteService;
 
 @Controller
@@ -25,6 +28,10 @@ public class AdminController {
 
 	@Autowired 
 	private UtenteService service;
+	@Autowired
+	private AutoreService aService;
+	@Autowired
+	private QuadroService qService;
 	
 	@PostMapping(value="/modifica")
 	public String modifica(@Valid @ModelAttribute Utente utente,BindingResult results, HttpServletRequest request, @RequestParam(value="ruoliEsistenti",required= false) String ruolo,@RequestParam(value="RuoloUtente", required=false)String check, Model model){
@@ -47,7 +54,7 @@ public class AdminController {
 			if(service.getUtenteByUsername(utente.getUsername()) != null){
 				model.addAttribute(utente);
 				model.addAttribute("usernameEsistente", true);
-				return "/admin/modifica";
+				return "/admin/modificaUtente";
 			}else{ 
 				ru.setUsername(utente.getUsername());
 				
@@ -81,7 +88,7 @@ public class AdminController {
 		Utente utente= service.getOneUtente(id);
 		model.addAttribute(utente);
 		
-		return "/admin/modifica";
+		return "/admin/modificaUtente";
 	}
 	
 	@GetMapping(value="/rimuoviUtente")
@@ -120,4 +127,39 @@ public class AdminController {
 	
 		return "/admin/dettagliUtente";
 	}
+	
+	@GetMapping(value="/modificaAutore")
+	public String dettagliAutore(@ModelAttribute("id") Long id, BindingResult results, Model model){
+		if(results.hasErrors()){
+			return "/admin/ControlPanel";
+		}
+		Autore autore = aService.getOneAutore(id);
+		model.addAttribute("autore", autore);
+	
+		return "/admin/modificaAutore";
+	}
+	@PostMapping(value="/modificaAutore")
+	public String modificaAutore(@Valid @ModelAttribute Autore autore,BindingResult results,Model model){
+		if(results.hasErrors()){
+		}
+		aService.inserisciAutore(autore);
+		model.addAttribute("inseritoCorrettamente", true);
+		return "redirect:/dettagliAutore?id="+String.valueOf(autore.getId());
+
+	}
+	@GetMapping(value="/rimuoviAutore")
+	public String rimoviAutore(@Valid @ModelAttribute Autore autore,BindingResult results,Model model){
+		if(results.hasErrors()){
+		}
+		if(qService.getQuadriByAutore(autore).isEmpty()){
+	
+		
+		aService.delete(autore);
+		model.addAttribute("cancellatoCorrettamente", true);}
+		else
+			model.addAttribute("erroreQuadriEsistenti",true);
+		
+		return "redirect:/lista";
+	}
+	
 }

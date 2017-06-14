@@ -54,7 +54,7 @@ public class IndexController {
 		return "dettagliQuadro";
 	}
 	
-	@GetMapping(value = "/dettagliAutore")
+	@GetMapping(value = "dettagliAutore")
 	public String dettagliAutore(@ModelAttribute("id") Long id, BindingResult results, Model model){
 		
 		if(results.hasErrors()){
@@ -65,7 +65,7 @@ public class IndexController {
 		model.addAttribute(autore);
 		List<Quadro> quadri = service.getQuadriByAutore(autore);
 		model.addAttribute("quadri",quadri);
-		return "dettagliAutore";
+		return "/admin/dettagliAutore";
 	}
 	
 	  // Login form

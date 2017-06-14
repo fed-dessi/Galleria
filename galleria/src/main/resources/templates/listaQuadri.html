@@ -17,6 +17,9 @@
 			<a th:href="@{/dettagliAutore(id=${autore.id})}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
 		</li>
 	</ul>
+	<span th:if="${erroreQuadriEsistenti}">
+	 Impossibile Cancellare l'Autore	,ha ancora quadri associati
+	</span>
 	<div><a href = "index">Torna alla home page</a></div>
 </body>
 </html>

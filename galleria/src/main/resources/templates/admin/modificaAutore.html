@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	    $('#ruoloUtente').change(function () {
+	      $('#autoUpdate').fadeToggle();
+	    });
+	});
+</script>
+<style type="text/css">
+	#autoUpdate{display:none;
+				}
+</style>
+<title>modifica Autore</title>
+</head>
+<body>
+
+	<div>
+		<form action="#" th:action="@{/modificaAutore}" th:object="${autore}"
+			method="POST">
+			<h1>Modifica Dati Autore</h1>
+
+			<input type="hidden" th:field="*{id}" />
+
+			<div style="margin-top: 10px">
+				Nome : <input type="text" th:field="*{nome}" /> <span
+					th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Cognome : <input type="text" th:field="*{cognome}" /> <span
+					th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Nazionalità : <input type="text" th:field="*{nazionalita}" /> <span
+					th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Data di nascita : <input type="date" th:field="*{dob}" /> <span
+					th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Data di morte : <input type="date" th:field="*{dod}" /> <span
+					th:if="${#fields.hasErrors('dod')}" th:errors="*{dod}">Error</span>
+			</div>
+
+		
+
+			
+
+			<span><button type="submit">Modifica Dati Autore</button></span>
+			<button type="submit" form="homeForm"
+				style="disply: inline; margin-left: 5px">Torna alla home!</button>
+		</form>
+
+		<!-- Questa form ci fa tornare alla homepage, ma il bottone che la fa partire sta dentro l'altra form -->
+
+		<form action="index" method="GET" id="homeForm"></form>
+	</div>
+</body>
+</html>
