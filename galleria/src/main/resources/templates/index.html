@@ -43,17 +43,7 @@
       </div>
     </div>
   </nav>
-  <div sec:authorize="!isAuthenticated()" class="py-5"> <span th:if="${param.logout}" style="margin-left:5px; display:inline-block" id="logoutSuccesso">Hai effettuato il logout correttamente</span> 
-    <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span> <span th:if="${param.expired}"
-      style="margin-left:5px; display:inline-block" id="sessione">La tua sessione e' scaduta.</span> <span th:if="${utenteInserito}" style="margin-left:5px; display:inline-block" id="inserito">
-            	Utente <b th:text="${utente.username}"></b> inserito correttamente!
-            </span> </div>
-  <div sec:authorize="isAuthenticated()" class="my-2"> Logged in user: <span sec:authentication="name"></span> | Roles: <span sec:authentication="principal.authorities"></span>
-    <div style="display:inline-block">
-      <form action="#" th:action="@{/logout}" method="post">
-        <input type="submit" value="Logout"/> </form>
-    </div>
-  </div>
+ 
   <h1 class="text-center text-uppercase text-muted"><b>Benvenuto nel sito web della Galleria!</b></h1>
   <p sec:authorize="hasAuthority('ADMIN')">
     <a href="inserimento">Clicca qui</a> per andare all'inserimento di un quadro! </p>
@@ -61,6 +51,17 @@
     <a href="admin">Clicca qui</a> per andare al pannello di controllo! </p>
       <p>
     <a href="lista">Lista quadri</a>
+     <div sec:authorize="!isAuthenticated()" class="py-5"> <span th:if="${param.logout}" style="margin-left:5px; display:inline-block" id="logoutSuccesso">Hai effettuato il logout correttamente</span> 
+    <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span> <span th:if="${param.expired}"
+      style="margin-left:5px; display:inline-block" id="sessione">La tua sessione e' scaduta.</span> <span th:if="${utenteInserito}" style="margin-left:5px; display:inline-block" id="inserito">
+            	Utente <b th:text="${utente.username}"></b> inserito correttamente!
+            </span> </div>
+  <div sec:authorize="isAuthenticated()" class="my-2" style="margin-top:25px"> Logged in user: <span sec:authentication="name"></span> | Roles: <span sec:authentication="principal.authorities"></span>
+    <div style="display:inline-block">
+      <form action="#" th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout"/> </form>
+    </div>
+  </div>
   </p>
 </body>
 </html>

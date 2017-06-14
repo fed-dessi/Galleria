@@ -65,7 +65,7 @@ public class IndexController {
 		model.addAttribute(autore);
 		List<Quadro> quadri = service.getQuadriByAutore(autore);
 		model.addAttribute("quadri",quadri);
-		return "/admin/dettagliAutore";
+		return "/dettagliAutore";
 	}
 	
 	  // Login form
