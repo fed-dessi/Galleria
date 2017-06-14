@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title th:text = "'Dettagli di: ' + ${quadro.titolo}">Insert title here</title>
+<title th:text = "'Dettagli di: ' + ${quadro.titolo}">dettagliQuadro</title>
 </head>
 <body>
 	<h1 th:text = "'Dettagli di: ' + ${quadro.titolo}">Quadro</h1>
@@ -19,5 +20,12 @@
 	<form>
 		<button formaction = "/lista" type = "submit" formmethod = "GET">Torna alla lista!</button>
 	</form>
+	<div th:if ="${inseritoCorrettamente}">
+		Quadro modificato correttamente
+		</div>
+	<div sec:authorize="hasAuthority('ADMIN')">
+	<a th:href="@{/modificaQuadro(id=${quadro.id})}" >Modifica Quadro</a>  
+	 <a th:href="@{/rimuoviQuadro(id=${quadro.id})}">Rimuovi Quadro</a>
+	</div>
 </body>
 </html>
