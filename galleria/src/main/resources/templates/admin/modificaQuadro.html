@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	    $('#ruoloUtente').change(function () {
+	      $('#autoUpdate').fadeToggle();
+	    });
+	});
+</script>
+<style type="text/css">
+	#autoUpdate{
+	display:none;
+				}
+</style>
+<title>modifica Quadro</title>
+</head>
+<body>
+
+	<div>
+		<form action="#" th:action="@{/modificaQuadro}" th:object="${quadro}"
+			method="POST">
+			<h1>Modifica Dati Quadro</h1>
+
+			<input type="hidden" th:field="*{id}" />
+
+			<div style="margin-top: 10px">
+				Titolo : <input type="text" th:field="*{titolo}" /> <span
+					th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Tecnica : <input type="text" th:field="*{tecnica}" /> <span
+					th:if="${#fields.hasErrors('tecnica')}" th:errors="*{tecnica}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Dimensioni : <input type="text" th:field="*{dimensioni}" /> <span
+					th:if="${#fields.hasErrors('dimensioni')}" th:errors="*{dimensioni}">Error</span>
+			</div>
+
+			<div style="margin-top: 10px">
+				Anno di Realizzazione : <input type="text" th:field="*{anno}" /> <span
+					th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}">Error</span>
+			</div>
+
+		
+
+			
+
+			<span><button type="submit">Modifica Dati Quadro</button></span>
+			<button type="submit" form="homeForm"
+				style="disply: inline; margin-left: 5px">Torna alla home!</button>
+		</form>
+
+		<!-- Questa form ci fa tornare alla homepage, ma il bottone che la fa partire sta dentro l'altra form -->
+
+		<form action="index" method="GET" id="homeForm"></form>
+	</div>
+</body>
+</html>

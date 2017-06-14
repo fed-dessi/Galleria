@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.galleria.model.Autore;
+import it.uniroma3.galleria.model.Quadro;
 import it.uniroma3.galleria.model.RuoloUtente;
 import it.uniroma3.galleria.model.Utente;
 import it.uniroma3.galleria.service.AutoreService;
@@ -143,7 +144,7 @@ public class AdminController {
 		if(results.hasErrors()){
 		}
 		aService.inserisciAutore(autore);
-		model.addAttribute("inseritoCorrettamente", true);
+		model.addAttribute("modificatoCorrettamente", true);
 		return "redirect:/dettagliAutore?id="+String.valueOf(autore.getId());
 
 	}
@@ -162,4 +163,46 @@ public class AdminController {
 		return "redirect:/lista";
 	}
 	
+	
+	/*
+	*  Codice relativo alla gestione del quadro da parte dell'amministratore
+		la logica di rimuovi è funzionante perchè ho verificato tutti i casi estremi(con più quadri allo stesso autore, )
+	*	La logica ed il codice di modifica funziona siccome mi effettua i cambiamenti sul DB e riesce a prendere l'utente 
+		l'unico problema è dopo modificato non ritorna su dettaglioQuadro appena modificato
+	*
+	*/
+	
+	
+	
+	@GetMapping(value="/modificaQuadro")
+	public String dettagliQuadro(@ModelAttribute("id") Long id, BindingResult results, Model model){
+		if(results.hasErrors()){
+			return "/admin/ControlPanel";
+		}
+		Quadro quadro = qService.getOneQuadro(id);
+		model.addAttribute("quadro", quadro);
+	
+		return "/admin/modificaQuadro";
+	}
+	
+	@PostMapping(value="/modificaQuadro")
+	public String modificaQuadro(@Valid @ModelAttribute BindingResult results,Model model, Quadro quadro, Autore autore){
+		if(results.hasErrors()){
+		}
+		
+		qService.inserisciQuadro(quadro);
+		model.addAttribute("modificatoCorrettamente",quadro);
+		
+	
+		return "redirect:/dettagliQuadro?id="+String.valueOf(quadro.getId());
+
+	}
+	@GetMapping(value="/rimuoviQuadro")
+	public String rimoviQuadro(@Valid @ModelAttribute Autore autore,BindingResult results,Model model, Quadro quadro){
+		if(results.hasErrors()){
+		}
+		qService.delete(quadro);
+		model.addAttribute("cancellatoCorrettamente", true);
+		return "redirect:/lista";
+	}
 }
