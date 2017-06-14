@@ -36,11 +36,11 @@ public class Autore {
 	
 	@NotNull
 	@Temporal(value = TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dob;
 	
 	@Temporal(value = TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dod;
 	
 	@OneToMany(mappedBy = "autore")

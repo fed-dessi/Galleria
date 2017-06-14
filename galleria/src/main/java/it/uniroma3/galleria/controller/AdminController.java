@@ -29,6 +29,8 @@ public class AdminController {
 	@PostMapping(value="/modifica")
 	public String modifica(@Valid @ModelAttribute Utente utente,BindingResult results, HttpServletRequest request, @RequestParam(value="ruoliEsistenti",required= false) String ruolo,@RequestParam(value="RuoloUtente", required=false)String check, Model model){
 		Long id=utente.getId();
+		RuoloUtente ru= service.getOneUtente(id).getRuoliUtente();
+		String username=service.getOneUtente(id).getUsername();
 		//Controllo se l'oggetto utente ha errori
 		if(results.hasErrors()){
 		    
@@ -36,33 +38,40 @@ public class AdminController {
 		    for (FieldError error : errors ) {
 		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage()); 
 		    }
-		    
-			return "redirect:/dettagliUtente?id=" + String.valueOf(id);
 		}
-		//Se l'utente non ha errori controllo se esiste gia' uno username che e' stato selezionato
-		if(service.getUtenteByUsername(utente.getUsername()) != null){
-			if(service.getUtenteByUsername(utente.getUsername()).getUsername().equals(utente.getUsername())){
+		//controlla che lo username non sia sempre lo stesso, se è lo stesso non fai niente
+		//se è diverso controlla che non esiste già, se esiste return alla pagina ed esce dal metodo
+		//se non esiste setUsername sull'oggetto user
+		
+		if(!username.equals(utente.getUsername())){
+			if(service.getUtenteByUsername(utente.getUsername()) != null){
+				model.addAttribute(utente);
 				model.addAttribute("usernameEsistente", true);
-				return "redirect:/dettagliUtente?id=" + String.valueOf(id);
+				return "/admin/modifica";
+			}else{ 
+				ru.setUsername(utente.getUsername());
+				
 			}
-		} else{ //se lo username e' disponibile controllo se devo aggiornare i permessi dell'utente
-			RuoloUtente ru= service.getOneUtente(id).getRuoliUtente();
-			//Caso permessi da NON modificare
-			if(check == null){
+		}
+		
+			//controllo se la password va cambiata (dafault = password non inserita, non va cambiata)
+			if(utente.getPassword().equals("")|| utente.getPassword()==null){
+				String vecchiaPassword= service.getOneUtente(id).getPassword();
+				utente.setPassword(vecchiaPassword);
+			}else{
 				String password = new BCryptPasswordEncoder().encode(utente.getPassword());
 				utente.setPassword(password);
-				utente.setRuoliUtente(ru);
-				service.modificaUtente(utente);
-				return "redirect:/dettagliUtente?id=" + String.valueOf(id);
+			}
+			//se lo username e' disponibile controllo se devo aggiornare i permessi dell'utente
+			//Caso permessi da NON modificare
+			if(check == null){
+					utente.setRuoliUtente(ru);
 			}else{ //caso permessi DA modificare
 				ru.setRuolo(ruolo);
 				utente.setRuoliUtente(ru);
-				String password = new BCryptPasswordEncoder().encode(utente.getPassword());
-				utente.setPassword(password);
-				service.modificaUtente(utente);
-				return "redirect:/dettagliUtente?id=" + String.valueOf(id);
-			}
-		}
+				}
+		utente.setEnabled(true);
+		service.modificaUtente(utente);
 		return "redirect:/dettagliUtente?id=" + String.valueOf(id);
 	}
 	

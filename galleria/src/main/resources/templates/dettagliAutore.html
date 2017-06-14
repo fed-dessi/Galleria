@@ -9,10 +9,10 @@
 	<ul>
 		<li th:text = "'Nome: ' + ${autore.nome}"></li>
 		<li th:text = "'Cognome: ' + ${autore.cognome}"></li>
-		<li th:text = "'Nazionalita: ' + ${autore.nazionalita}"></li>
-		<li th:text = "'Data di Nascita: ' + ${autore.dob}"></li>
+		<li th:text = "'Nazionalità: ' + ${autore.nazionalita}"></li>
+		<li th:text = "'Data di Nascita: ' + ${#dates.format(autore.dob, 'dd MMMM yyyy')}"></li>
 		<li th:switch ="${autore.dod == null}">
-			<span th:case = "false" th:text = "'Data di morte: ' + ${autore.dod}"></span>
+			<span th:case = "false" th:text = "'Data di morte: ' + ${#dates.format(autore.dod, 'dd MMMM yyyy')}"></span>
 			<span th:case = "true" th:text = "'Data di morte: '"></span>
 		</li>
 	</ul>

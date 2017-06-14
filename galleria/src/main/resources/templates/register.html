@@ -32,6 +32,7 @@
 	});
 </script>
 
+
 <title>Registra nuovo Utente</title>
 </head>
 <body>
@@ -63,7 +64,7 @@
 				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
 			</div>
 
-			<span><input type = "submit" value = "Registra Utente" id = "submit"/></span>
+			<span><input type = "submit" value = "Registra Utente" id = "submit" disabled = "disabled"/></span>
 			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
 		</form>
 		

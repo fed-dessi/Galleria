@@ -11,58 +11,69 @@
 	    });
 	});
 </script>
-
+<style type="text/css">
+	#autoUpdate{display:none;
+				}
+</style>
 <title>modifica Utente</title>
 </head>
 <body>
 
 	<div>
-		<form action="#" th:action = "@{/modifica}" th:object = "${utente}" method = "POST" >
+		<form action="#" th:action="@{/modifica}" th:object="${utente}"
+			method="POST">
 			<h1>Modifica Dati Utente</h1>
-			
-			<input type="hidden" th:field="*{id}"/>
-			
-			<div style = "margin-top:10px">Nome : <input type = "text" th:field = "*{nome}"/> 
-				<span th:if="${#fields.hasErrors('nome')}" th:errors = "*{nome}">Error</span>
+
+			<input type="hidden" th:field="*{id}" />
+
+			<div style="margin-top: 10px">
+				Nome : <input type="text" th:field="*{nome}" /> <span
+					th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span>
 			</div>
-			
-			<div style = "margin-top:10px">Cognome : <input type = "text" th:field = "*{cognome}"/> 
-				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
+
+			<div style="margin-top: 10px">
+				Cognome : <input type="text" th:field="*{cognome}" /> <span
+					th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Error</span>
 			</div>
-			
-			<div style = "margin-top:10px">Username : <input type = "text" th:field = "*{username}"/> 
-				<span th:if="${#fields.hasErrors('username')}" th:errors = "*{username}">Error</span>
+
+			<div style="margin-top: 10px">
+				Username : <input type="text" th:field="*{username}" /> <span
+					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
 			</div>
-			
-			<div style = "margin-top:10px">Email : <input type = "text" th:field = "*{email}"/> 
-				<span th:if="${#fields.hasErrors('email')}" th:errors = "*{email}">Error</span>
+
+			<div style="margin-top: 10px">
+				Email : <input type="text" th:field="*{email}" /> <span
+					th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</span>
 			</div>
-			
-			<div style = "margin-top:10px">Password : <input type = "password" th:field = "*{password}" /> 
-				<span th:if="${#fields.hasErrors('password')}" th:errors = "*{password}">Error</span>
+
+			<div style="margin-top: 10px">
+				Password : <input type="password" th:field="*{password}" /> <span
+					th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
 			</div>
-			
-			<div style = "margin-top:10px">
-				<label for="ruoloUtente" style = "margin-top:10px">Cambiare ruolo Utente?</label> 
-				<input type="checkbox" name="RuoloUtente" id="ruoloUtente"/>
+
+			<div style="margin-top: 10px">
+				<label for="ruoloUtente" style="margin-top: 10px">Cambiare
+					ruolo Utente?</label> <input type="checkbox" name="RuoloUtente"
+					id="ruoloUtente" />
 			</div>
-			
-			<div style = "margin-top:10px; margin-bottom:20px;">
-				<select name = "ruoliEsistenti" id="autoUpdate" class="autoUpdate">
-					<option value="" th:disabled = "true" th:selected="true">Seleziona un ruolo...</option>
-					<option th:text = "'USER'" th:value = "'USER'"/>
-					<option th:text = "'ADMIN'" th:value = "'ADMIN'"/>
+
+			<div style="margin-top: 10px; margin-bottom: 20px;">
+				<select name="ruoliEsistenti" id="autoUpdate" class="autoUpdate">
+					<option value="" th:disabled="true" th:selected="true">Seleziona
+						un ruolo...</option>
+					<option th:text="'USER'" th:value="'USER'" />
+					<option th:text="'ADMIN'" th:value="'ADMIN'" />
 				</select>
 			</div>
-				
-			<span><button type = "submit">Modifica Dati Utente</button></span>
-			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
+
+			<span><button type="submit">Modifica Dati Utente</button></span>
+			<button type="submit" form="homeForm"
+				style="disply: inline; margin-left: 5px">Torna alla home!</button>
 		</form>
-		
+
 		<!-- Questa form ci fa tornare alla homepage, ma il bottone che la fa partire sta dentro l'altra form -->
-		
-		<form action = "index" method = "GET" id = "homeForm">
-		</form>
+
+		<form action="index" method="GET" id="homeForm"></form>
 	</div>
 </body>
 

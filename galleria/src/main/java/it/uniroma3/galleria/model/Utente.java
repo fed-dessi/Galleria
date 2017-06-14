@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Utente{
@@ -24,7 +25,6 @@ public class Utente{
 	@Size(min = 1)
 	private String username;
 	@NotNull
-	@Size(min = 1)
 	private String password;
 	private boolean enabled;
 	@Size(min = 1)

@@ -55,4 +55,5 @@ public class QuadroService {
 		List<Quadro> quadri = repository.findByTecnica(tecnica);
 		return quadri;
 	}
+	
 }
