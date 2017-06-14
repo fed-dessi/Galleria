@@ -19,9 +19,9 @@ import it.uniroma3.galleria.service.QuadroService;
 public class IndexController {
 	
 	@Autowired
-	QuadroService service;
+	private QuadroService service;
 	@Autowired
-	AutoreService aService;
+	private AutoreService aService;
 	
 	@GetMapping(value = "/")
 	public String indexSlash(){

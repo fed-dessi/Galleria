@@ -8,15 +8,17 @@
 	//questa funzione mi controlla che il valore inserito dentro il campo password, e quello conferma password siano uguali
 	//altrimenti applica un po' di magia CSS e ci da qualche errore visivo. In questo modo evito di confermare la password nel back-end
 	function checkPasswordMatch() {
-	    var password = $("#Password").val();
-	    var confirmPassword = $("#ConfermaPassword").val();
+	    var password = $.trim($("#Password").val());
+	    var confirmPassword = $.trim($("#ConfermaPassword").val());
 	
 	    if (password != confirmPassword){
-	       	 	$("#spanCheckPasswordMatch").html("Password diverse");
-	       	 	$('#spanCheckPasswordMatch').css("color", "red");
-	       	 	$('#Password').css("border", "1px solid red");
-	       	 	$('#ConfermaPassword').css("border", "1px solid red");
-	        	$('#submit').prop('disabled', true);
+	    		if(password.length > 1){
+		       	 	$("#spanCheckPasswordMatch").html("Password diverse");
+		       	 	$('#spanCheckPasswordMatch').css("color", "red");
+		       	 	$('#Password').css("border", "1px solid red");
+		       	 	$('#ConfermaPassword').css("border", "1px solid red");
+		        	$('#submit').prop('disabled', true);
+	    		}
 	    	}
 	    else{
 	        $("#spanCheckPasswordMatch").html("Le password sono uguali!");
@@ -28,10 +30,10 @@
 	}
 	
 	$(document).ready(function () {
-	   $("#Password, #ConfermaPassword").keyup(checkPasswordMatch);
+	   $("#ConfermaPassword").keyup(checkPasswordMatch);
 	});
 </script>
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <title>Registra nuovo Utente</title>
 </head>
@@ -63,7 +65,11 @@
 			<div style = "margin-top:10px">Cognome: <input type = "text" th:field = "*{cognome}"/> 
 				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
 			</div>
-
+			
+			<!--Questo div abilita il re-CAPTCHA di google per verificare che un umano si sta registrando e non un robot  --> 
+			<div class="g-recaptcha" th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+			        <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
+			
 			<span><input type = "submit" value = "Registra Utente" id = "submit" disabled = "disabled"/></span>
 			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
 		</form>

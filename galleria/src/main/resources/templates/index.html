@@ -51,6 +51,7 @@
     <a href="admin">Clicca qui</a> per andare al pannello di controllo! </p>
       <p>
     <a href="lista">Lista quadri</a>
+      </p>
      <div sec:authorize="!isAuthenticated()" class="py-5"> <span th:if="${param.logout}" style="margin-left:5px; display:inline-block" id="logoutSuccesso">Hai effettuato il logout correttamente</span> 
     <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span> <span th:if="${param.expired}"
       style="margin-left:5px; display:inline-block" id="sessione">La tua sessione e' scaduta.</span> <span th:if="${utenteInserito}" style="margin-left:5px; display:inline-block" id="inserito">
@@ -62,6 +63,5 @@
         <input type="submit" value="Logout"/> </form>
     </div>
   </div>
-  </p>
 </body>
 </html>

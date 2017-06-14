@@ -20,8 +20,7 @@
 <body>
 
 	<div>
-		<form action="#" th:action="@{/modifica}" th:object="${utente}"
-			method="POST">
+		<form action="#" th:action="@{/modifica}" th:object="${utente}" method="POST">
 			<h1>Modifica Dati Utente</h1>
 
 			<input type="hidden" th:field="*{id}" />
@@ -37,8 +36,9 @@
 			</div>
 
 			<div style="margin-top: 10px">
-				Username : <input type="text" th:field="*{username}" /> <span
-					th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
+				Username : <input type="text" th:field="*{username}" /> 
+				<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
+				<span th:if="${usernameEsistente}" th:text ="'Lo username selezionato non e' disponibile, scegline un altro!'">Error</span>
 			</div>
 
 			<div style="margin-top: 10px">
@@ -58,9 +58,8 @@
 			</div>
 
 			<div style="margin-top: 10px; margin-bottom: 20px;">
-				<select name="ruoliEsistenti" id="autoUpdate" class="autoUpdate">
-					<option value="" th:disabled="true" th:selected="true">Seleziona
-						un ruolo...</option>
+				<select name="ruoloEsistenti" id="autoUpdate" class="autoUpdate">
+					<option value="" th:disabled="true" th:selected="true">Seleziona un ruolo...</option>
 					<option th:text="'USER'" th:value="'USER'" />
 					<option th:text="'ADMIN'" th:value="'ADMIN'" />
 				</select>

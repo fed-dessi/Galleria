@@ -34,7 +34,7 @@ public class AdminController {
 	private QuadroService qService;
 	
 	@PostMapping(value="/modifica")
-	public String modifica(@Valid @ModelAttribute Utente utente,BindingResult results, HttpServletRequest request, @RequestParam(value="ruoliEsistenti",required= false) String ruolo,@RequestParam(value="RuoloUtente", required=false)String check, Model model){
+	public String modifica(@Valid @ModelAttribute Utente utente,BindingResult results, HttpServletRequest request, @RequestParam(value="ruoloEsistenti",required= false) String ruolo,@RequestParam(value="RuoloUtente", required=false)String check, Model model){
 		Long id=utente.getId();
 		RuoloUtente ru= service.getOneUtente(id).getRuoliUtente();
 		String username=service.getOneUtente(id).getUsername();
@@ -43,7 +43,7 @@ public class AdminController {
 		    
 			List<FieldError> errors = results.getFieldErrors();
 		    for (FieldError error : errors ) {
-		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage()); 
+		    	System.out.println (error.getObjectName() + " - " + error.getDefaultMessage() + " - " + error.getField() + " - " + error.getCode());
 		    }
 		}
 		//controlla che lo username non sia sempre lo stesso, se è lo stesso non fai niente
@@ -72,10 +72,10 @@ public class AdminController {
 			//se lo username e' disponibile controllo se devo aggiornare i permessi dell'utente
 			//Caso permessi da NON modificare
 			if(check == null){
-					utente.setRuoliUtente(ru);
+					utente.setRuoloUtente(ru);
 			}else{ //caso permessi DA modificare
 				ru.setRuolo(ruolo);
-				utente.setRuoliUtente(ru);
+				utente.setRuoloUtente(ru);
 				}
 		utente.setEnabled(true);
 		service.modificaUtente(utente);

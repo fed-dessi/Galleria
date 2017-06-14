@@ -13,30 +13,40 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+import it.uniroma3.galleria.annotazioni.ValidEmail;
+
 
 @Entity
 public class Utente{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@NotNull
 	@Size(min = 1)
 	private String username;
+	
 	@NotNull
+	@NotBlank
 	private String password;
+	
+	
 	private boolean enabled;
-	@Size(min = 1)
+	
 	@NotNull
-	@Email
+	@ValidEmail
 	private String email;
+	
 	@Size(min = 1)
 	@NotNull
 	private String nome;
+	
 	@Size(min = 1)
 	@NotNull
 	private String cognome;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private RuoloUtente ruoloUtente;
 
@@ -114,7 +124,7 @@ public class Utente{
 		return ruoloUtente;
 	}
 
-	public void setRuoliUtente(RuoloUtente ruoloUtente) {
+	public void setRuoloUtente(RuoloUtente ruoloUtente) {
 		this.ruoloUtente = ruoloUtente;
 	}
 

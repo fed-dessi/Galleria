@@ -28,9 +28,9 @@ import it.uniroma3.galleria.service.QuadroService;
 public class InserimentoController {
 	
 	@Autowired
-	QuadroService service;
+	private QuadroService service;
 	@Autowired
-	AutoreService aService;
+	private AutoreService aService;
 	
 	@GetMapping(value = "/inserimento")
 	public String inserimentoPagina(Quadro quadro, Model model){
@@ -47,28 +47,25 @@ public class InserimentoController {
 			
 		    List<FieldError> errors = bindingResult.getFieldErrors();
 		    for (FieldError error : errors ) {
-		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
-		        
+		    	System.out.println (error.getObjectName() + " - " + error.getDefaultMessage() + " - " + error.getField() + " - " + error.getCode());
 		    }
-		    List<Autore> autori = aService.getAutori();
-			model.addAttribute("autori", autori);
-		    return "/inserimento/inserimento";
+		    return "redirect:/inserimento";
+		    
 		//Controllo se l'utente ha deciso di usare il menu a tendina per scegliere un autore gia' esistente
-		}else if(inserisciAutore == null){
+		}else if(inserisciAutore != null){
 			Autore autore = aService.getOneAutore(autoriEsistenti);
 			quadro.setAutore(autore);
 			service.inserisciQuadro(quadro);
 			model.addAttribute("inseritoCorrettamente", true);
 			model.addAttribute(quadro);
 			model.addAttribute(autore);
-			return "/inserimento/inserimentoAutore";
 		}else{
 			//Oltre ad aggiungere quadro al model, poiche' ho dichiarato il parametro "quadro" come @SessionAttributes allora verra' catturato nella sessione
 			model.addAttribute(quadro);
 			Autore autore = new Autore();
 			model.addAttribute(autore);
-			return "/inserimento/inserimentoAutore";
 		}
+		return "/inserimento/inserimentoAutore";
 	}
 	
 
@@ -80,7 +77,7 @@ public class InserimentoController {
 		if(bindingResult.hasErrors()){
 		    List<FieldError> errors = bindingResult.getFieldErrors();
 		    for (FieldError error : errors ) {
-		        System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
+		    	System.out.println (error.getObjectName() + " - " + error.getDefaultMessage() + " - " + error.getField() + " - " + error.getCode());
 		    }
 			return "/inserimento/inserimentoAutore";
 		}
