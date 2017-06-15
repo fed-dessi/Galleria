@@ -47,7 +47,7 @@ public class Utente{
 	@NotNull
 	private String cognome;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	private RuoloUtente ruoloUtente;
 
 	

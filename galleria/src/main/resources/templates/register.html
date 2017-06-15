@@ -33,7 +33,6 @@
 	   $("#ConfermaPassword").keyup(checkPasswordMatch);
 	});
 </script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <title>Registra nuovo Utente</title>
 </head>
@@ -65,10 +64,6 @@
 			<div style = "margin-top:10px">Cognome: <input type = "text" th:field = "*{cognome}"/> 
 				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
 			</div>
-			
-			<!--Questo div abilita il re-CAPTCHA di google per verificare che un umano si sta registrando e non un robot  --> 
-			<div class="g-recaptcha" th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
-			        <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
 			
 			<span><input type = "submit" value = "Registra Utente" id = "submit" disabled = "disabled"/></span>
 			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>

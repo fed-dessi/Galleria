@@ -54,4 +54,5 @@ public class AutoreService {
 		List<Autore> autori = repository.findByNazionalita(nazionalita);
 		return autori;
 	}
-	}
+	
+}

@@ -148,6 +148,7 @@ public class AdminController {
 		return "redirect:/dettagliAutore?id="+String.valueOf(autore.getId());
 
 	}
+	
 	@GetMapping(value="/rimuoviAutore")
 	public String rimoviAutore(@Valid @ModelAttribute Autore autore,BindingResult results,Model model){
 		if(results.hasErrors()){
@@ -186,21 +187,24 @@ public class AdminController {
 	}
 	
 	@PostMapping(value="/modificaQuadro")
-	public String modificaQuadro(@Valid @ModelAttribute BindingResult results,Model model, Quadro quadro, Autore autore){
+	public String modificaQuadro(@Valid @ModelAttribute Quadro quadro,BindingResult results, Model model){
 		if(results.hasErrors()){
 		}
-		
+		Autore autore = aService.getOneAutore(quadro.getAutore().getId());
+		quadro.setAutore(autore);
 		qService.inserisciQuadro(quadro);
-		model.addAttribute("modificatoCorrettamente",quadro);
+		model.addAttribute("modificatoCorrettamente",true);
 		
 	
 		return "redirect:/dettagliQuadro?id="+String.valueOf(quadro.getId());
 
 	}
+	
 	@GetMapping(value="/rimuoviQuadro")
-	public String rimoviQuadro(@Valid @ModelAttribute Autore autore,BindingResult results,Model model, Quadro quadro){
+	public String rimoviQuadro(@ModelAttribute("id") Long id,BindingResult results, Model model){
 		if(results.hasErrors()){
 		}
+		Quadro quadro = qService.getOneQuadro(id);
 		qService.delete(quadro);
 		model.addAttribute("cancellatoCorrettamente", true);
 		return "redirect:/lista";

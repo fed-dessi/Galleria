@@ -4,6 +4,7 @@ package it.uniroma3.galleria.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,7 +44,7 @@ public class Autore {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dod;
 	
-	@OneToMany(mappedBy = "autore")
+	@OneToMany(mappedBy = "autore", cascade = {CascadeType.ALL})
 	private List<Quadro> quadri;
 	
 	public Autore(){

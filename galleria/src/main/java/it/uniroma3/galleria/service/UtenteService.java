@@ -55,7 +55,7 @@ public class UtenteService implements InterfacciaUtenteService{
 		repository.save(utente);
 	}
 	
-	//Lascio controllare al metodo service se esiste gia' un utente con lo stesso username nel database,
+	//Lascio controllare alla classe service se esiste gia' un utente con lo stesso username nel database,
 	//se lo trova solleva un'eccezione che possiamo catturare nei nostri messages.properties e mostrarla all'utente.
 	//I permessi dell'utente so gia' che possono essere o USER o ADMIN, dato che avro' solo una form allora posso pre-impostarli io a USER
 	@Override

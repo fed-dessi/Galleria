@@ -39,7 +39,7 @@ public class Quadro {
 	@Size(min = 1)
 	private String dimensioni;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	private Autore autore;
 	
 	public Quadro(String titolo, Integer anno, String tecnica, String dimensioni){

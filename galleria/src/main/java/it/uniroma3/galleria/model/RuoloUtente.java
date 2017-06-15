@@ -2,7 +2,7 @@ package it.uniroma3.galleria.model;
 
 import java.util.List;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +15,7 @@ public class RuoloUtente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@OneToMany (mappedBy="ruoloUtente")
+	@OneToMany (mappedBy="ruoloUtente",cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	private List<Utente> utenti;
 	@NotNull
 	private String ruolo;
