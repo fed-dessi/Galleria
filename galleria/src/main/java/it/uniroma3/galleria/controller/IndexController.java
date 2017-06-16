@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.Quadro;
@@ -73,10 +74,11 @@ public class IndexController {
 	}
 	
 	@PostMapping(value = "/ricerca")
-	public String ricerca(@ModelAttribute("selectRicerca") String scelta, @ModelAttribute("searchBox") String ricerca, Model model){
+	public String ricerca(@ModelAttribute("selectRicerca") String scelta, @ModelAttribute("searchBox") String ricerca, RedirectAttributes ra, Model model){
 		List<Quadro> quadri = new ArrayList<Quadro>();
 		List<Autore> autori = new ArrayList<Autore>();
 		
+		//Popoliamo le liste da visualizzare in base alla scelta effettuata sul menu a tendina
 		switch(scelta){
 			case "1": quadri = service.searchByTitolo(ricerca);
 					  break;
@@ -88,18 +90,24 @@ public class IndexController {
 					  break;
 		}
 		
-		if(!autori.isEmpty()){
+		//Se entrambe le liste sono vuote allora non ho ottenuto alcun risultato dalla ricerca e lo indico all'utente
+		//aggiungendo un FlashAttribute che viene appeso alla sessione e viene distrutto automaticamente dopo la prima volta che si usa
+		if(autori.isEmpty() && quadri.isEmpty()){
+			ra.addFlashAttribute("nessunRisultato", true);
+			return "redirect:/lista";
+		//Altrimenti prima controllo se ho cercato per autore
+		}else if(!autori.isEmpty()){
 			for(Autore autore: autori){
 				for(Quadro quadro: service.getQuadriByAutore(autore)){
 					quadri.add(quadro);
 				}
 			}
+		//Altrimenti ho cercato per quadro
 		}else{
 			for(Quadro quadro: quadri){
 				autori.add(quadro.getAutore());
 			}
 		}
-		
 		model.addAttribute("autori",autori);
 		model.addAttribute("quadri",quadri);
 		return "listaQuadri";

@@ -27,8 +27,6 @@ public class UtenteService implements InterfacciaUtenteService{
 		
 	}
 	
-
-	
 	public Utente getOneUtente(Long id) {
 		Utente utente = repository.findOne(id);
 		return utente;
@@ -38,19 +36,16 @@ public class UtenteService implements InterfacciaUtenteService{
 		repository.delete(u);
 	}
 	
-	public Utente getUtenteByEmail(String email){
-		Utente utente = repository.findByEmail(email);
-		return utente;
-	}
-	
 	public Utente getUtenteByUsername(String username){
 		Utente utente = repository.findByUsername(username);
 		return utente;
 	}
+	
 	public List<Utente> findAll(){
 		List<Utente> utenti= repository.findAll();
 		return utenti;
 	}
+	
 	public void modificaUtente(Utente utente){
 		repository.save(utente);
 	}

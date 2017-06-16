@@ -46,12 +46,6 @@ public class QuadroService {
 		return quadri;
 	}
 	
-	
-	public Quadro getQuadroByTitolo(String titolo){
-		Quadro quadro = repository.findByTitolo(titolo);
-		return quadro;
-	}
-	
 	public List<Quadro> getQuadroByAnno(Integer anno){
 		List<Quadro> quadri = repository.findByAnno(anno);
 		return quadri;

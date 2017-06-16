@@ -9,8 +9,7 @@
 		<form action = "#" th:action="@{/ricerca}" method = "POST">
 			<label>Ricerca per:</label> 
 			<select name = "selectRicerca" id = "selectRicerca">
-				<option value="" th:disabled = "true" th:selected="true"></option>
-				<option value="1">Titolo Quadro</option>
+				<option value="1" th:selected="true">Titolo Quadro</option>
 				<option value="2">Anno Quadro</option>
 				<option value="3">Nome e/o Cognome Autore</option>
 				<option value="4">Nazionalita Autore</option>
@@ -19,6 +18,7 @@
 			<input type="submit" value = "Ricerca"/>
 		</form>
 	</div>
+	<span th:if ="${nessunRisultato}" style ="color:red">La ricerca non ha prodotto nessun risultato con i parametri indicati!</span>
 	<h1>Lista dei Quadri:</h1>
 	<ul>
 		<li th:each="quadro : ${quadri}">
@@ -33,11 +33,11 @@
 	</ul>
 	<div><a href = "index">Torna alla home page</a></div>
 
-	<span th:if="${autoreCancellatoCorrettamente}">
-		 L'autore e' stato cancellato!
+	<span th:if="${autoreCancellatoCorrettamente}" style ="color:red">
+		 <b>L'autore e' stato cancellato correttamente!</b>
 	</span>
-	<span th:if="${quadroCancellatoCorrettamente}">
-		 Il quadro e' stato cancellato!
+	<span th:if="${quadroCancellatoCorrettamente}" style ="color:red">
+		 <b>Il quadro e' stato cancellato correttamente!</b>
 	</span>
 </body>
 </html>

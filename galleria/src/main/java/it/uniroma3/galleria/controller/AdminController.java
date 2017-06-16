@@ -145,7 +145,7 @@ public class AdminController {
 	}
 	
 	@PostMapping(value="/modificaAutore")
-	public String modificaAutore(@Valid @ModelAttribute Autore autore,BindingResult results, RedirectAttributes ra,Model model){
+	public String modificaAutore(@Valid @ModelAttribute Autore autore,BindingResult results, RedirectAttributes ra, Model model){
 		if(results.hasErrors()){
 		}
 		aService.inserisciAutore(autore);

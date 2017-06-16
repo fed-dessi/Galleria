@@ -12,9 +12,6 @@ import it.uniroma3.galleria.model.Autore;
 public interface AutoreRepository extends CrudRepository <Autore, Long> {
 	
 
-	Autore findByCognome(String cognome);
-	Autore findByNome(String nome);
-	List<Autore> findByNazionalita(String nazionalita);
 	List<Autore> findAll();
 	
     @Query("SELECT a FROM Autore a WHERE LOWER(a.nome) LIKE LOWER(CONCAT('%',:searchTerm,'%')) OR LOWER(a.cognome) LIKE LOWER(CONCAT('%',:searchTerm,'%'))")

@@ -35,26 +35,10 @@ public class AutoreService {
 		return autore;
 	}
 
-
 	public void delete(Autore a){
 		repository.delete(a);
 	}
-	
-	public Autore getByNome(String nome){
-		Autore autore = repository.findByNome(nome);
-		return autore;
-	}
-	
-	public Autore getByCognome(String cognome){
-		Autore autore = repository.findByCognome(cognome);
-		return autore;
-	}
-	
-	public List<Autore> getByNazionalita(String nazionalita){
-		List<Autore> autori = repository.findByNazionalita(nazionalita);
-		return autori;
-	}
-	
+
 	public List<Autore> searchByAutore(String searchTerm){
 		List<Autore> autori = repository.searchAutoreWithJPQLQuery(searchTerm);
 		return autori;

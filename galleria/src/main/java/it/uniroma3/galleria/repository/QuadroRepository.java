@@ -11,7 +11,6 @@ import it.uniroma3.galleria.model.Quadro;
 
 public interface QuadroRepository  extends CrudRepository <Quadro, Long>  {
 
-	Quadro findByTitolo(String titolo);
 	List<Quadro> findByAnno(Integer anno);
 	List<Quadro> findByAutore(Autore autore);
 	List<Quadro> findAll();
