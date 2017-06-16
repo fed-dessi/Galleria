@@ -52,9 +52,14 @@ public class QuadroService {
 		return quadro;
 	}
 	
-	public List<Quadro> getQuadroByTecnica(String tecnica){
-		List<Quadro> quadri = repository.findByTecnica(tecnica);
+	public List<Quadro> getQuadroByAnno(Integer anno){
+		List<Quadro> quadri = repository.findByAnno(anno);
 		return quadri;
+	}
+	
+	public List<Quadro> searchByTitolo(String searchTerm){
+		List<Quadro> quadriSearch = repository.searchTitoloWithJPQLQuery(searchTerm);
+		return quadriSearch;
 	}
 	
 }

@@ -55,4 +55,18 @@ public class AutoreService {
 		return autori;
 	}
 	
+	public List<Autore> searchByNome(String searchTerm){
+		List<Autore> autori = repository.searchNomeWithJPQLQuery(searchTerm);
+		return autori;
+	}
+	
+	public List<Autore> searchByCognome(String searchTerm){
+		List<Autore> autori = repository.searchCognomeWithJPQLQuery(searchTerm);
+		return autori;
+	}
+	
+	public List<Autore> searchByNazionalita(String searchTerm){
+		List<Autore> autori = repository.searchNazionalitaWithJPQLQuery(searchTerm);
+		return autori;
+	}
 }

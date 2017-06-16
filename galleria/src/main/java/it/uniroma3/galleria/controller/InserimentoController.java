@@ -61,6 +61,7 @@ public class InserimentoController {
 			model.addAttribute("inseritoCorrettamente", true);
 			model.addAttribute(quadro);
 			model.addAttribute(autore);
+			status.setComplete();
 		}else{
 			//Oltre ad aggiungere quadro al model, poiche' ho dichiarato il parametro "quadro" come @SessionAttributes allora verra' catturato nella sessione
 			model.addAttribute(quadro);

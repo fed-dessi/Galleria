@@ -1,5 +1,6 @@
 package it.uniroma3.galleria.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -70,9 +72,44 @@ public class IndexController {
 		return "/dettagliAutore";
 	}
 	
-	  // Login form
-	  @RequestMapping("/login")
-	  public String login() {
-		  return "login";
-	  }
+	@PostMapping(value = "/ricerca")
+	public String ricerca(@ModelAttribute("selectRicerca") String scelta, @ModelAttribute("searchBox") String ricerca, Model model){
+		List<Quadro> quadri = new ArrayList<Quadro>();
+		List<Autore> autori = new ArrayList<Autore>();
+		
+		switch(scelta){
+			case "1": quadri = service.searchByTitolo(ricerca);
+					  break;
+			case "2": quadri = service.getQuadroByAnno(Integer.valueOf(ricerca));
+					  break;
+			case "3": autori = aService.searchByNome(ricerca);
+					  break;
+			case "4": autori = aService.searchByCognome(ricerca);
+					  break;
+			case "5": autori = aService.searchByNazionalita(ricerca);
+					  break;
+		}
+		
+		if(!autori.isEmpty()){
+			for(Autore autore: autori){
+				for(Quadro quadro: service.getQuadriByAutore(autore)){
+					quadri.add(quadro);
+				}
+			}
+		}else{
+			for(Quadro quadro: quadri){
+				autori.add(quadro.getAutore());
+			}
+		}
+		
+		model.addAttribute("autori",autori);
+		model.addAttribute("quadri",quadri);
+		return "listaQuadri";
+	}
+	
+    // Login form
+    @RequestMapping("/login")
+    public String login() {
+    	return "login";
+    }
 }
