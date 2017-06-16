@@ -82,11 +82,9 @@ public class IndexController {
 					  break;
 			case "2": quadri = service.getQuadroByAnno(Integer.valueOf(ricerca));
 					  break;
-			case "3": autori = aService.searchByNome(ricerca);
+			case "3": autori = aService.searchByAutore(ricerca);
 					  break;
-			case "4": autori = aService.searchByCognome(ricerca);
-					  break;
-			case "5": autori = aService.searchByNazionalita(ricerca);
+			case "4": autori = aService.searchByNazionalita(ricerca);
 					  break;
 		}
 		
