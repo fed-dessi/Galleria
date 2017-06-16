@@ -17,25 +17,26 @@
 			<span th:case = "true" th:text = "'Data di morte: '"></span>
 		</li>
 	</ul>
-	
-	<h3 th:text = "'Quadri creati da: ' + ${autore.nome} + ' ' + ${autore.cognome}">Quadri creati da Autore:</h3>
-	<ul>
-		<li th:each="quadro : ${quadri}">
-			<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
-		</li>
-	</ul>
-	<form>
+	<div th:if = "${quadro != null}">
+		<h3 th:text = "'Quadri creati da: ' + ${autore.nome} + ' ' + ${autore.cognome}">Quadri creati da Autore:</h3>
+		<ul>
+			<li th:each="quadro : ${quadri}">
+				<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
+			</li>
+		</ul>
+	</div>
+	<form style="display:inline">
 		<button formaction = "index" type = "submit" formmethod = "GET">Torna alla home!</button>
 	</form>
-	<form>
+	<form style="display:inline">
 		<button formaction = "/lista" type = "submit" formmethod = "GET">Torna alla lista!</button>
 	</form>
-		<div th:if ="${inseritoCorrettamente}">
+	<div th:if ="${modificatoCorrettamente}">
 		Autore modificato correttamente
-		</div>
+	</div>
 	<div sec:authorize="hasAuthority('ADMIN')">
-	<a th:href="@{/modificaAutore(id=${autore.id})}" >Modifica Autore</a>  
-	 <a th:href="@{/rimuoviAutore(id=${autore.id})}">Rimuovi Autore</a>
+		<a th:href="@{/modificaAutore(id=${autore.id})}" >Modifica Autore</a>  
+		<a th:href="@{/rimuoviAutore(id=${autore.id})}">Rimuovi Autore</a>
 	</div>
 </body>
 </html>

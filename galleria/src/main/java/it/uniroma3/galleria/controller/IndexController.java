@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 
 import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.Quadro;
@@ -29,7 +30,8 @@ public class IndexController {
 	}
 	
 	@GetMapping(value = "/index")
-	public String index(){
+	public String index(SessionStatus status){
+		status.setComplete();
 		return "index";
 	}
 	

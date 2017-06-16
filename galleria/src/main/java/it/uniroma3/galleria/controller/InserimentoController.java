@@ -41,7 +41,7 @@ public class InserimentoController {
 	
 	//Inseriamo prima le informazioni del quadro
 	@PostMapping(value = "/inserimento")
-	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, HttpServletRequest request, @RequestParam(value = "autoriEsistenti", required = false) Long autoriEsistenti, @RequestParam(value = "inserisciAutore", required = false) String inserisciAutore, Model model){
+	public String inserimento(@Valid @ModelAttribute Quadro quadro, BindingResult bindingResult, HttpServletRequest request, @RequestParam(value = "autoriEsistenti", required = false) Long autoriEsistenti, @RequestParam(value = "inserisciAutore", required = false) String inserisciAutore, SessionStatus status, Model model){
 
 		if(bindingResult.hasErrors()){
 			
@@ -49,7 +49,9 @@ public class InserimentoController {
 		    for (FieldError error : errors ) {
 		    	System.out.println (error.getObjectName() + " - " + error.getDefaultMessage() + " - " + error.getField() + " - " + error.getCode());
 		    }
-		    return "redirect:/inserimento";
+			List<Autore> autori = aService.getAutori();
+			model.addAttribute("autori", autori);
+		    return "/inserimento/inserimento";
 		    
 		//Controllo se l'utente ha deciso di usare il menu a tendina per scegliere un autore gia' esistente
 		}else if(inserisciAutore != null){

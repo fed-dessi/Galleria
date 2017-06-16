@@ -26,7 +26,7 @@
 			<h1>Inserimento Dati Quadro</h1>
 			
 			<div style = "margin-top:10px">Titolo : <input type = "text" th:field = "*{titolo}"/> 
-				<span th:if="${#fields.hasErrors('titolo')}" th:errors = "*{titolo}">Error</span> 
+				<span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error</span>
 			</div>
 			
 			<div style = "margin-top:10px">Anno : <input type = "text" th:field = "*{anno}"/> 
@@ -34,11 +34,11 @@
 			</div>
 			
 			<div style = "margin-top:10px">Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
-				<span th:if="${#fields.hasErrors('tecnica')}" th:errors = "*{tecnica}">Error</span>
+				<span th:if="${#fields.hasErrors('tecnica')}" th:text="#{label.mandatory}">Error</span>
 			</div>
 			
 			<div style = "margin-top:10px">Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
-				<span th:if="${#fields.hasErrors('dimensioni')}" th:errors = "*{dimensioni}">Error</span>
+				<span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
 			</div>
 			
 			<div style = "margin-top:10px">

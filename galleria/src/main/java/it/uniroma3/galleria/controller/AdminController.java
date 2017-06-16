@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.Quadro;
@@ -34,6 +35,26 @@ public class AdminController {
 	@Autowired
 	private QuadroService qService;
 	
+	@GetMapping(value="/admin")
+	public String admin (Model model){
+		List<Utente> utenti= service.findAll();
+		model.addAttribute("utenti",utenti);
+		
+		return "admin/ControlPanel";
+	}
+	
+	@GetMapping(value = "/dettagliUtente")
+	public String dettagliUtente(@ModelAttribute("id") Long id, Model model){
+		Utente utente= service.getOneUtente(id);
+		model.addAttribute("utente", utente);
+	
+		return "/admin/dettagliUtente";
+	}
+	
+	/*
+	 * METODI PER LA MODIFICA/RIMOZIONE DI UTENTE
+	 */
+	
 	@PostMapping(value="/modifica")
 	public String modifica(@Valid @ModelAttribute Utente utente,BindingResult results, HttpServletRequest request, @RequestParam(value="ruoloEsistenti",required= false) String ruolo,@RequestParam(value="RuoloUtente", required=false)String check, Model model){
 		Long id=utente.getId();
@@ -47,9 +68,9 @@ public class AdminController {
 		    	System.out.println (error.getObjectName() + " - " + error.getDefaultMessage() + " - " + error.getField() + " - " + error.getCode());
 		    }
 		}
-		//controlla che lo username non sia sempre lo stesso, se è lo stesso non fai niente
-		//se è diverso controlla che non esiste già, se esiste return alla pagina ed esce dal metodo
-		//se non esiste setUsername sull'oggetto user
+		//controlla che lo username non sia cambiato, se è lo stesso non fa niente,
+		//se è diverso controlla che non esiste già, se esiste già return alla pagina ed esce dal metodo
+		//se non esiste setUsername sull'oggetto utente
 		
 		if(!username.equals(utente.getUsername())){
 			if(service.getUtenteByUsername(utente.getUsername()) != null){
@@ -62,22 +83,22 @@ public class AdminController {
 			}
 		}
 		
-			//controllo se la password va cambiata (dafault = password non inserita, non va cambiata)
-			if(utente.getPassword().equals("")|| utente.getPassword()==null){
-				String vecchiaPassword= service.getOneUtente(id).getPassword();
-				utente.setPassword(vecchiaPassword);
-			}else{
-				String password = new BCryptPasswordEncoder().encode(utente.getPassword());
-				utente.setPassword(password);
-			}
-			//se lo username e' disponibile controllo se devo aggiornare i permessi dell'utente
-			//Caso permessi da NON modificare
-			if(check == null){
-					utente.setRuoloUtente(ru);
-			}else{ //caso permessi DA modificare
-				ru.setRuolo(ruolo);
+		//controllo se la password va cambiata (dafault = password non inserita, non va cambiata)
+		if(utente.getPassword().equals("")|| utente.getPassword()==null){
+			String vecchiaPassword= service.getOneUtente(id).getPassword();
+			utente.setPassword(vecchiaPassword);
+		}else{
+			String password = new BCryptPasswordEncoder().encode(utente.getPassword());
+			utente.setPassword(password);
+		}
+		//se lo username e' disponibile controllo se devo aggiornare i permessi dell'utente
+		//Caso permessi da NON modificare
+		if(check == null){
 				utente.setRuoloUtente(ru);
-				}
+		}else{ //caso permessi DA modificare
+			ru.setRuolo(ruolo);
+			utente.setRuoloUtente(ru);
+		}
 		utente.setEnabled(true);
 		service.modificaUtente(utente);
 		return "redirect:/dettagliUtente?id=" + String.valueOf(id);
@@ -110,76 +131,46 @@ public class AdminController {
 			}
 	}
 	
-	@GetMapping(value="/admin")
-	public String admin (Model model){
-		List<Utente> utenti= service.findAll();
-		model.addAttribute("utenti",utenti);
-		
-		return "admin/ControlPanel";
-	}
-	
-	@GetMapping(value = "/dettagliUtente")
-	public String dettagliUtente(@ModelAttribute("id") Long id, BindingResult results, Model model){
-		if(results.hasErrors()){
-			return "/admin/ControlPanel";
-		}
-		Utente utente= service.getOneUtente(id);
-		model.addAttribute("utente", utente);
-	
-		return "/admin/dettagliUtente";
-	}
+	/*
+	 * METODI PER LA MODIFICA/RIMOZIONE DI UN AUTORE
+	 */
 	
 	@GetMapping(value="/modificaAutore")
-	public String dettagliAutore(@ModelAttribute("id") Long id, BindingResult results, Model model){
-		if(results.hasErrors()){
-			return "/admin/ControlPanel";
-		}
+	public String dettagliAutore(@ModelAttribute("id") Long id, Model model){
+
 		Autore autore = aService.getOneAutore(id);
 		model.addAttribute("autore", autore);
 	
 		return "/admin/modificaAutore";
 	}
+	
 	@PostMapping(value="/modificaAutore")
-	public String modificaAutore(@Valid @ModelAttribute Autore autore,BindingResult results,Model model){
+	public String modificaAutore(@Valid @ModelAttribute Autore autore,BindingResult results, RedirectAttributes ra,Model model){
 		if(results.hasErrors()){
 		}
 		aService.inserisciAutore(autore);
-		model.addAttribute("modificatoCorrettamente", true);
+		ra.addFlashAttribute("modificatoCorrettamente", true);
 		return "redirect:/dettagliAutore?id="+String.valueOf(autore.getId());
 
 	}
 	
 	@GetMapping(value="/rimuoviAutore")
-	public String rimoviAutore(@Valid @ModelAttribute Autore autore,BindingResult results,Model model){
-		if(results.hasErrors()){
-		}
-		if(qService.getQuadriByAutore(autore).isEmpty()){
-	
-		
+	public String rimoviAutore(@ModelAttribute("id") Long id, RedirectAttributes ra, Model model){
+		Autore autore = aService.getOneAutore(id);
 		aService.delete(autore);
-		model.addAttribute("cancellatoCorrettamente", true);}
-		else
-			model.addAttribute("erroreQuadriEsistenti",true);
-		
+		ra.addFlashAttribute("autoreCancellatoCorrettamente",true);
 		return "redirect:/lista";
 	}
 	
 	
 	/*
-	*  Codice relativo alla gestione del quadro da parte dell'amministratore
-		la logica di rimuovi è funzionante perchè ho verificato tutti i casi estremi(con più quadri allo stesso autore, )
-	*	La logica ed il codice di modifica funziona siccome mi effettua i cambiamenti sul DB e riesce a prendere l'utente 
-		l'unico problema è dopo modificato non ritorna su dettaglioQuadro appena modificato
-	*
+	*	METODI PER LA MODIFICA/RIMOZIONE DI UN QUADRO
 	*/
 	
 	
 	
 	@GetMapping(value="/modificaQuadro")
-	public String dettagliQuadro(@ModelAttribute("id") Long id, BindingResult results, Model model){
-		if(results.hasErrors()){
-			return "/admin/ControlPanel";
-		}
+	public String dettagliQuadro(@ModelAttribute("id") Long id, Model model){
 		Quadro quadro = qService.getOneQuadro(id);
 		model.addAttribute("quadro", quadro);
 	
@@ -187,13 +178,13 @@ public class AdminController {
 	}
 	
 	@PostMapping(value="/modificaQuadro")
-	public String modificaQuadro(@Valid @ModelAttribute Quadro quadro,BindingResult results, Model model){
+	public String modificaQuadro(@Valid @ModelAttribute Quadro quadro,BindingResult results, RedirectAttributes ra, Model model){
 		if(results.hasErrors()){
 		}
 		Autore autore = aService.getOneAutore(quadro.getAutore().getId());
 		quadro.setAutore(autore);
 		qService.inserisciQuadro(quadro);
-		model.addAttribute("modificatoCorrettamente",true);
+		ra.addFlashAttribute("modificatoCorrettamente",true);
 		
 	
 		return "redirect:/dettagliQuadro?id="+String.valueOf(quadro.getId());
@@ -201,12 +192,10 @@ public class AdminController {
 	}
 	
 	@GetMapping(value="/rimuoviQuadro")
-	public String rimoviQuadro(@ModelAttribute("id") Long id,BindingResult results, Model model){
-		if(results.hasErrors()){
-		}
+	public String rimoviQuadro(@ModelAttribute("id") Long id, RedirectAttributes ra,Model model){
 		Quadro quadro = qService.getOneQuadro(id);
 		qService.delete(quadro);
-		model.addAttribute("cancellatoCorrettamente", true);
+		ra.addFlashAttribute("quadroCancellatoCorrettamente", true);
 		return "redirect:/lista";
 	}
 }
