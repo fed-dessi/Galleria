@@ -17,7 +17,7 @@
 			<span th:case = "true" th:text = "'Data di morte: '"></span>
 		</li>
 	</ul>
-	<div th:if = "${quadro != null}">
+	<div th:if = "${quadri != null}">
 		<h3 th:text = "'Quadri creati da: ' + ${autore.nome} + ' ' + ${autore.cognome}">Quadri creati da Autore:</h3>
 		<ul>
 			<li th:each="quadro : ${quadri}">

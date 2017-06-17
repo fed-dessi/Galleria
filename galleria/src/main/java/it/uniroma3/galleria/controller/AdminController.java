@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.galleria.model.Autore;
@@ -24,6 +25,7 @@ import it.uniroma3.galleria.model.Utente;
 import it.uniroma3.galleria.service.AutoreService;
 import it.uniroma3.galleria.service.QuadroService;
 import it.uniroma3.galleria.service.UtenteService;
+import it.uniroma3.galleria.upload.ImmagineUpload;
 
 @Controller
 public class AdminController {
@@ -34,6 +36,8 @@ public class AdminController {
 	private AutoreService aService;
 	@Autowired
 	private QuadroService qService;
+	@Autowired
+	private ImmagineUpload upload;
 	
 	@GetMapping(value="/admin")
 	public String admin (Model model){
@@ -178,8 +182,14 @@ public class AdminController {
 	}
 	
 	@PostMapping(value="/modificaQuadro")
-	public String modificaQuadro(@Valid @ModelAttribute Quadro quadro,BindingResult results, RedirectAttributes ra, Model model){
+	public String modificaQuadro(@Valid @ModelAttribute Quadro quadro,BindingResult results, RedirectAttributes ra, @RequestParam(value = "immagineQuadro", required = false) MultipartFile immagineQuadro, Model model){
 		if(results.hasErrors()){
+		}
+		if (!immagineQuadro.isEmpty()) {
+			upload.creaDirectoryImmaginiSeNecessario();
+			upload.rimuovi(quadro.getImmagine());
+			upload.creaFileImmagine(immagineQuadro.getOriginalFilename(), immagineQuadro);
+			quadro.setImmagine(immagineQuadro.getOriginalFilename());
 		}
 		Autore autore = aService.getOneAutore(quadro.getAutore().getId());
 		quadro.setAutore(autore);
@@ -194,6 +204,7 @@ public class AdminController {
 	@GetMapping(value="/rimuoviQuadro")
 	public String rimoviQuadro(@ModelAttribute("id") Long id, RedirectAttributes ra,Model model){
 		Quadro quadro = qService.getOneQuadro(id);
+		upload.rimuovi(quadro.getImmagine());
 		qService.delete(quadro);
 		ra.addFlashAttribute("quadroCancellatoCorrettamente", true);
 		return "redirect:/lista";

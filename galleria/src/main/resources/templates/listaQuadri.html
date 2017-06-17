@@ -22,7 +22,10 @@
 	<h1>Lista dei Quadri:</h1>
 	<ul>
 		<li th:each="quadro : ${quadri}">
-			<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
+			<div>
+				<span th:if ="${quadro.immagine != null}"><a th:href="@{/dettagliQuadro(id=${quadro.id})}"><img th:src="'/quadro/' + ${quadro.immagine}" th:alt ="${quadro.titolo}" height="200" width="150" style = "display:block;"/></a></span>
+				<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}" style = "display:block; margin-left:40px"></a>
+			</div>
 		</li>
 	</ul>
 	<h1>Lista degli Autori:</h1>

@@ -8,11 +8,15 @@
 	$(document).ready(function () {
 	    $('#checkbox1').change(function () {
 	      $('#autoUpdate').fadeToggle();
+	      $('#immagineQuadro').fadeToggle();
 	    });
 	});
 </script>
 <style type="text/css">
 	#autoUpdate{
+		display:none;
+	}
+	#immagineQuadro{
 		display:none;
 	}
 </style>
@@ -22,7 +26,7 @@
 </head>
 <body>
 	<div>
-		<form action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
+		<form enctype="multipart/form-data" action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
 			<h1>Inserimento Dati Quadro</h1>
 			
 			<div style = "margin-top:10px">Titolo : <input type = "text" th:field = "*{titolo}"/> 
@@ -40,6 +44,8 @@
 			<div style = "margin-top:10px">Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
 				<span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
 			</div>
+			
+			<div id ="immagineQuadro" style = "margin-top:10px">Immagine Quadro: (SOLO FORMATO .JPG) <input type = "file" name ="immagineQuadro" accept=".jpg"/></div>
 			
 			<div style = "margin-top:10px">
 				<div>

@@ -39,6 +39,8 @@ public class Quadro {
 	@Size(min = 1)
 	private String dimensioni;
 	
+	private String immagine;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	private Autore autore;
 	
@@ -81,6 +83,13 @@ public class Quadro {
 	}
 	public void setDimensioni(String dimensioni) {
 		this.dimensioni = dimensioni;
+	}
+	
+	public String getImmagine() {
+		return immagine;
+	}
+	public void setImmagine(String immagine) {
+		this.immagine = immagine;
 	}
 	public Autore getAutore() {
 		return autore;

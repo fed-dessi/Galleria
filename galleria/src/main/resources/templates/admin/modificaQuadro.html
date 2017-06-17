@@ -21,8 +21,7 @@
 <body>
 
 	<div>
-		<form action="#" th:action="@{/modificaQuadro}" th:object="${quadro}"
-			method="POST">
+		<form action="#" enctype="multipart/form-data" th:action="@{/modificaQuadro}" th:object="${quadro}" method="POST">
 			<h1>Modifica Dati Quadro</h1>
 
 			<input type="hidden" th:field="*{id}" />
@@ -48,9 +47,9 @@
 					th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}">Error</span>
 			</div>
 
-		
-
-			
+			<div style="margin-top: 10px">
+				Immagine (SOLO FORMATO .JPG): <input type = "file" name ="immagineQuadro" accept=".jpg"/>
+			</div>
 
 			<span><button type="submit">Modifica Dati Quadro</button></span>
 			<button type="submit" form="homeForm"

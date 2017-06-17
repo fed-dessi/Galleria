@@ -1,5 +1,8 @@
 package it.uniroma3.galleria.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,10 +23,13 @@ import it.uniroma3.galleria.model.Autore;
 import it.uniroma3.galleria.model.Quadro;
 import it.uniroma3.galleria.service.AutoreService;
 import it.uniroma3.galleria.service.QuadroService;
+import it.uniroma3.galleria.upload.ImmagineUpload;
 
 @Controller
 public class IndexController {
 	
+	@Autowired
+	private ImmagineUpload upload;
 	@Autowired
 	private QuadroService service;
 	@Autowired
@@ -113,6 +121,15 @@ public class IndexController {
 		return "listaQuadri";
 	}
 	
+    @GetMapping(value = "/quadro/{nomeImmagine}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable(value = "nomeImmagine") String nomeImmagine) throws IOException {
+        File serverFile = upload.getPathFile(nomeImmagine);
+
+        return Files.readAllBytes(serverFile.toPath());
+    }
+    
+    
     // Login form
     @RequestMapping("/login")
     public String login() {
