@@ -39,12 +39,12 @@ public class AdminController {
 	@Autowired
 	private ImmagineUpload upload;
 	
-	@GetMapping(value="/admin")
+	@GetMapping(value="/listaUtenti")
 	public String admin (Model model){
 		List<Utente> utenti= service.findAll();
 		model.addAttribute("utenti",utenti);
 		
-		return "admin/ControlPanel";
+		return "admin/listaUtenti";
 	}
 	
 	@GetMapping(value = "/dettagliUtente")
@@ -53,6 +53,11 @@ public class AdminController {
 		model.addAttribute("utente", utente);
 	
 		return "/admin/dettagliUtente";
+	}
+	
+	@GetMapping(value = "/admin")
+	public String ControlPanel( Model model){
+		return "/admin/ControlPanel";
 	}
 	
 	/*
@@ -123,7 +128,7 @@ public class AdminController {
 			List<Utente> utenti =service.findAll();
 			model.addAttribute("utenti", utenti);
 			
-			return"/admin/ControlPanel";
+			return"/admin/listaUtenti";
 		}else{
 			model.addAttribute("utente", service.getOneUtente(id));
 			service.delete(service.getOneUtente(id));
@@ -131,7 +136,7 @@ public class AdminController {
 			List<Utente> utenti = service.findAll();
 			model.addAttribute("utenti", utenti);
 		
-			return"/admin/ControlPanel";
+			return"/admin/listaUtenti";
 			}
 	}
 	

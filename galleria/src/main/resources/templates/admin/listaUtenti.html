@@ -16,41 +16,43 @@ padding-top:70px;
     background-color:rgba(255,255,255,0.9);
     color:inerith;}
 </style>
-    <title>Login</title>
-  </head>
-  <body>
-  <nav class="navbar navbar-default col-md-12 navbar-fixed-top">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Pannello di Controllo</title>
+</head>
+<body>
+<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
 <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
         <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
            <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
 		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
     </ul>
+        		
+    <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
+    
+    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+    <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+    		
+    </fieldset>
     </nav>
     <div>
-        <div class="container">
+
+
+    <div class="container">
     <div class="jumbotron myBackground">
-        <form th:action="@{/login}" method="post">               
-            <fieldset>
-            
-                <legend>Please Login</legend>
-                <div th:if="${param.error}" class="alert alert-error">    
-                    username e/o password invalidi.
-                </div>
-                <div th:if="${param.logout}" class="alert alert-success"> 
-                    Hai effettuato il Logout correttamente.
-                </div>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username"/>        
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password"/>    
-                <div class="form-actions">
-                    <button type="submit" class="btn">Log in</button>
-                </div>
-            </fieldset>
-        </form>
-        </div>
-        </div>
-    </div>
-  </body>
+    <h1>Lista Utenti</h1>
+<ul>
+
+		<li th:each="utente : ${utenti}">
+			<a th:href="@{/dettagliUtente(id=${utente.id})}" th:text="${utente.username}"></a>
+		</li>
+	</ul>
+	<div th:if="${cancellato}">
+		<span th:text="${utente.username} + ' cancellato correttamente!'"></span> 
+	</div>
+	</div>
+	</div>
+</div>
+</body>
 </html>

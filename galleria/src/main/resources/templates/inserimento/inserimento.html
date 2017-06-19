@@ -1,6 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+
+<style type="text/css">
+body {
+background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
+background-size: 100%;
+padding-top:70px;
+
+}
+.navbar-default .navbar-nav>li>a {
+    padding-bottom: 24px;
+    }
+      .myBackground {
+    background-color:rgba(255,255,255,0.9);
+    color:inerith;}
+
+   button{
+  margin:auto;
+  display:block;
+  }
+ 
+
+
+   
+    
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -8,7 +35,7 @@
 	$(document).ready(function () {
 	    $('#checkbox1').change(function () {
 	      $('#autoUpdate').fadeToggle();
-	      $('#immagineQuadro').fadeToggle();
+	      $('#nascosto').fadeToggle();
 	    });
 	});
 </script>
@@ -16,7 +43,7 @@
 	#autoUpdate{
 		display:none;
 	}
-	#immagineQuadro{
+	#nascosto{
 		display:none;
 	}
 </style>
@@ -25,48 +52,103 @@
 <title>Inserimento quadro</title>
 </head>
 <body>
-	<div>
-		<form enctype="multipart/form-data" action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
-			<h1>Inserimento Dati Quadro</h1>
+<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
+<ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+    </ul>
+        		
+    <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
+    
+    Benvenuto:<b> <span sec:authentication="name"></span>!</b> <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+    <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+    		
+    </fieldset>
+    </nav>
+	<div class="container">
+    <div class="jumbotron myBackground">
+  <div class="row">
+     <h1 class="text-center" style="color:green">Inserimento Dati Quadro</h1>
+  
+    <div class="col-md-4 col-md-offset-4">
+      <form class="form-horizontal" role="form" enctype="multipart/form-data" action="#" th:action = "@{/inserimento}" th:object = "${quadro}" method = "POST">
+        <fieldset>
+
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="titolo">Titolo</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Titolo" class="form-control" id="titolo" th:field = "*{titolo}"/>
+				<span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error
+				</span>
+            </div>
+          </div>
 			
-			<div style = "margin-top:10px">Titolo : <input type = "text" th:field = "*{titolo}"/> 
-				<span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error</span>
-			</div>
 			
-			<div style = "margin-top:10px">Anno : <input type = "text" th:field = "*{anno}"/> 
-				<span th:if="${#fields.hasErrors('anno')}" th:errors = "*{anno}">Error</span>
-			</div>
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="anno">Anno</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Anno" class="form-control" id="anno" th:field = "*{anno}"/>
+              <span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error</span>
+
+            </div>
+          </div>
+
 			
-			<div style = "margin-top:10px">Tecnica : <input type = "text" th:field = "*{tecnica}"/> 
-				<span th:if="${#fields.hasErrors('tecnica')}" th:text="#{label.mandatory}">Error</span>
-			</div>
+		 <div class="form-group">
+            <label class="col-sm-2 control-label" for="tecnica">Tecnica</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Tecnica"  class="form-control" id="tecnica" th:field = "*{tecnica}"/> 
+              <span th:if="${#fields.hasErrors('tecnica')}" th:text="#{label.mandatory}">Error</span>
+            </div>
+          </div>
 			
-			<div style = "margin-top:10px">Dimensioni : <input type = "text" th:field = "*{dimensioni}"/> 
-				<span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
-			</div>
+		<div class="form-group">
+            <label class="col-sm-3 control-label" for="dimensioni">Dimensioni</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Dimensioni" class="form-control" th:field = "*{dimensioni}" id="dimensioni" />
+                            <span th:if="${#fields.hasErrors('Dimensioni')}" th:text="#{label.mandatory}">Error</span>
+              
+            </div>
+      </div>
+			 <div class="form-group" id="nascosto">
+            <label class="col-sm-10 control-label" for="immagineQuadro" >Immagine Quadro(only .jpg)</label>
+            <div class="col-sm-3">
+              <input type="file"  accept=".jpg" id ="immagineQuadro" name="immagineQuadro" />
+            </div>
+          </div>
 			
-			<div id ="immagineQuadro" style = "margin-top:10px">Immagine Quadro: (SOLO FORMATO .JPG) <input type = "file" name ="immagineQuadro" accept=".jpg"/></div>
 			
-			<div style = "margin-top:10px">
-				<div>
-					<label for ="checkbox1" style = "margin-top:10px">Selezionare un autore esistente? </label>
-					<input type="checkbox" name="inserisciAutore" id="checkbox1"/>
-				</div>
-				
-				<div style = "margin-top:10px; margin-bottom:20px;">
+						
+			 <label for="checkbox inline" >Selezionare Autore esistente?
+  				<input type="checkbox" name="inserisciAutore" id="checkbox1"/>
+				</label>
+
+          
 					<select name = "autoriEsistenti" id="autoUpdate" class="autoUpdate">
 						<option value="" th:disabled = "true" th:selected="true">Seleziona un autore...</option>
 						<option th:each="autore : ${autori}" th:text = "${autore.nome} + ' ' + ${autore.cognome}" th:value = "${autore.id}"/>
 					</select>
-				</div>
+
+			  <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-central">
+			<span><button class= "btn btn-primary" type = "submit" style="margin-top: 10px;">Inserisci Dati Quadro</button></span>
 			</div>
-				
-			<span><button type = "submit">Inserisci Dati Quadro</button></span>
-			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
-		</form>
-		
-		<form action = "index" method = "GET" id ="homeForm">
-		</form>
-	</div>
+			</div>
+			</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+
+
+	
 </body>
 </html>

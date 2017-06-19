@@ -1,11 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
 <head>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+<style type="text/css">
+body {
+background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
+background-size: 100%;
+padding-top:70px;
+}
+.navbar-default .navbar-nav>li>a {
+    padding-bottom: 24px;
+    }
+      .myBackground{
+    background-color:rgba(255,255,255,0.9);
+    color:inerith;}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title th:text = "'Dettagli di: ' + ${quadro.titolo}">dettagliQuadro</title>
 </head>
 <body>
+<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
+<ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+    </ul>
+        		
+        <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
+    
+    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+    <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+    		
+    </fieldset>
+    </nav>
+        <div class="container">
+    <div class="jumbotron myBackground">
 	<h1 th:text = "'Dettagli di: ' + ${quadro.titolo}">Quadro</h1>
 	<ul>
 		<li th:text = "'Anno di creazione: ' + ${quadro.anno}"></li>
@@ -27,5 +59,8 @@
 		<a th:href="@{/modificaQuadro(id=${quadro.id})}" >Modifica Quadro</a>  
 		<a th:href="@{/rimuoviQuadro(id=${quadro.id})}">Rimuovi Quadro</a>
 	</div>
+	</div>
+	</div>
+	
 </body>
 </html>

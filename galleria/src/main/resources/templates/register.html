@@ -1,8 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+  
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
+background-size: 100%;
+padding-top:70px;
+}
+.navbar-default .navbar-nav>li>a {
+    padding-bottom: 24px;
+    
+    }
+      .myBackground{
+    background-color:rgba(255,255,255,0.9);
+    color:inerith;}
+
+
+</style>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="text/javascript">
 	//questa funzione mi controlla che il valore inserito dentro il campo password, e quello conferma password siano uguali
@@ -38,6 +58,16 @@
 </head>
 <body>
 	<div>
+	<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
+         <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li class="active" ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+    </ul>
+</nav>
+    <div class="container">
+    <div class="jumbotron myBackground">
 		<form action="#" th:action = "@{/register}" th:object = "${utente}" method = "POST">
 			<h1>Inserisci i tuoi dati:</h1>
 			<div>Username : <input type = "text" th:field = "*{username}"/> 
@@ -64,13 +94,14 @@
 			<div style = "margin-top:10px">Cognome: <input type = "text" th:field = "*{cognome}"/> 
 				<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
 			</div>
-			
-			<span><input type = "submit" value = "Registra Utente" id = "submit" disabled = "disabled"/></span>
-			<button type ="submit" form ="homeForm" style = "disply:inline; margin-left: 5px">Torna alla home!</button>
-		</form>
+			<div>
+			<input type="submit" value="Registrati" id="submit"/>
+			</div>
+				
 		
-		<form action = "index" method = "GET" id ="homeForm">
 		</form>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

@@ -1,6 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+<style type="text/css">
+body {
+background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
+background-size: 100%;
+padding-top:70px;
+}
+  .myBackground{
+    background-color:rgba(255,255,255,0.9);
+    color:inerith;}
+.navbar-default .navbar-nav>li>a {
+    padding-bottom: 24px;
+    }
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -18,8 +33,25 @@
 <title>modifica Autore</title>
 </head>
 <body>
-
+<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
+<ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+    </ul>
+        		
+    <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
+    
+    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+    <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+    		
+    </fieldset>
+    </nav>
 	<div>
+	<div class="container">
+    <div class="jumbotron myBackground">
 		<form action="#" th:action="@{/modificaAutore}" th:object="${autore}"
 			method="POST">
 			<h1>Modifica Dati Autore</h1>
@@ -63,6 +95,8 @@
 		<!-- Questa form ci fa tornare alla homepage, ma il bottone che la fa partire sta dentro l'altra form -->
 
 		<form action="index" method="GET" id="homeForm"></form>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

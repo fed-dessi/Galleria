@@ -1,11 +1,45 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
+background-size: 100%;
+padding-top:70px;
+}
+.navbar-default .navbar-nav>li>a {
+    padding-bottom: 24px;
+    }
+      .myBackground{
+    background-color:rgba(255,255,255,0.9);
+    color:inerith;}
+</style>
 <title>Lista Quadri</title>
 </head>
 <body>
+<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
+         <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li class="active" ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+    </ul>
+        		
+    <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
+    
+    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
+    <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+    		
+    </fieldset>
+</nav>
+    <div class="container">
+    <div class="jumbotron myBackground">
 	<div>
+	
 		<form action = "#" th:action="@{/ricerca}" method = "POST">
 			<label>Ricerca per:</label> 
 			<select name = "selectRicerca" id = "selectRicerca">
@@ -14,27 +48,27 @@
 				<option value="3">Nome e/o Cognome Autore</option>
 				<option value="4">Nazionalita Autore</option>
 			</select>
-			<input type ="text" name ="searchBox"/>
-			<input type="submit" value = "Ricerca"/>
+			<input type ="text" name ="searchBox" />
+			<input class= "btn btn-primary" type="submit" value = "Ricerca"/>
 		</form>
 	</div>
 	<span th:if ="${nessunRisultato}" style ="color:red">La ricerca non ha prodotto nessun risultato con i parametri indicati!</span>
-	<h1>Lista dei Quadri:</h1>
+	<h1><font color="green">Lista dei Quadri:</font></h1>
 	<ul>
 		<li th:each="quadro : ${quadri}">
-			<div>
-				<span th:if ="${quadro.immagine != null}"><a th:href="@{/dettagliQuadro(id=${quadro.id})}"><img th:src="'/quadro/' + ${quadro.immagine}" th:alt ="${quadro.titolo}" height="200" width="150" style = "display:block;"/></a></span>
-				<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}" style = "display:block; margin-left:40px"></a>
-			</div>
+            <div>
+                <span th:if ="${quadro.immagine != null}"><a th:href="@{/dettagliQuadro(id=${quadro.id})}"><img th:src="'/quadro/' + ${quadro.immagine}" th:alt ="${quadro.titolo}" height="200" width="150" style = "display:block;"/></a></span>
+                <a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}" style = "display:block; margin-left:40px"></a>
+            </div>
+			<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
 		</li>
 	</ul>
-	<h1>Lista degli Autori:</h1>
+	<h1><font color="red">Lista degli Autori:</font></h1>
 	<ul>
 		<li th:each="autore : ${autori}">
 			<a th:href="@{/dettagliAutore(id=${autore.id})}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
 		</li>
 	</ul>
-	<div><a href = "index">Torna alla home page</a></div>
 
 	<span th:if="${autoreCancellatoCorrettamente}" style ="color:red">
 		 <b>L'autore e' stato cancellato correttamente!</b>
@@ -42,5 +76,7 @@
 	<span th:if="${quadroCancellatoCorrettamente}" style ="color:red">
 		 <b>Il quadro e' stato cancellato correttamente!</b>
 	</span>
+	</div>
+	</div>
 </body>
 </html>
