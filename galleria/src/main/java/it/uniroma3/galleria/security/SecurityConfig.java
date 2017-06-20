@@ -27,10 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .authorities("ADMIN")
 	        .and()
 	        .configure(auth);
-		auth.jdbcAuthentication().dataSource(dataSource)
-		
+		 	auth.jdbcAuthentication().dataSource(dataSource)
 		.passwordEncoder(new BCryptPasswordEncoder())
-		.usersByUsernameQuery("SELECT username,password,1 FROM utente where username=?")
+		.usersByUsernameQuery("SELECT username,password,1  FROM utente where username=?")
 		.authoritiesByUsernameQuery("SELECT username,ruolo FROM ruolo_utente where username=?");
 	}
 
@@ -60,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+    	
         http
         .authorizeRequests()
         	.antMatchers("/","/index", "/register").permitAll()
@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and()
         .formLogin()
-            .loginPage("/login")
+            .loginPage("/login").usernameParameter("username").passwordParameter("password")
             .permitAll()
             .failureUrl("/?error")
             .and()
@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .logout()
         	.logoutSuccessUrl("/?logout")
             .permitAll()
-            .and()
+        	.and()
         .sessionManagement()
         	.maximumSessions(1)
         	.expiredUrl("/login?expired");

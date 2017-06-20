@@ -27,6 +27,9 @@ background-attachment: fixed;
 #errormessage{
 color:red;
 }
+    .navbar-default .navbar-nav>li>a:hover{
+    background-color:#dddddd;
+    }
 
 </style>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -67,9 +70,8 @@ color:red;
 	<nav class="navbar navbar-default col-md-12 navbar-fixed-top">
          <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-           <li class="active"></li>
-		  <li class="active"></li>
+        <li><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+         
     </ul>
 </nav>
 	<div class="container">
@@ -78,7 +80,7 @@ color:red;
      <h1 class="text-center" style="color:brown">Inserisci i tuoi Dati </h1>
  	
     <div class="col-md-4 col-md-offset-4" style="margin-left:30%">
-      <form class="form-horizontal" role="form" method="POST" th:action="@{/register}" th:object = "${utente}">		
+      <form class="form-horizontal"  method="POST" th:action="@{/register}" th:object = "${utente}">		
         <fieldset>
 		<div class="form-group">
             <label class="col-sm-3 control-label" for="username">Username</label>

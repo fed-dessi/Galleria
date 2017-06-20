@@ -15,6 +15,9 @@ padding-top:70px;
       .myBackground{
     background-color:rgba(255,255,255,0.9);
     color:inerith;}
+        .navbar-default .navbar-nav>li>a:hover{
+    background-color:#dddddd;
+    }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title th:text = "'Dettagli di: ' + ${quadro.titolo}">dettagliQuadro</title>
@@ -22,10 +25,10 @@ padding-top:70px;
 <body>
 <nav class="navbar navbar-default col-md-12 navbar-fixed-top">
 <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+          <li ><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
         <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-           <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
-		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+           <li ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li ><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
     </ul>
         		
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
@@ -36,29 +39,41 @@ padding-top:70px;
     		
     </fieldset>
     </nav>
-        <div class="container">
+    
+    
+    <div class="container">
     <div class="jumbotron myBackground">
-	<h1 th:text = "'Dettagli di: ' + ${quadro.titolo}" style="color:green">Quadro</h1>
-	<ul>
-		<li th:text = "'Anno di creazione: ' + ${quadro.anno}"></li>
-		<li th:text = "'Tecnica di creazione: ' + ${quadro.tecnica}"></li>
-		<li th:text = "'Dimensioni del quadro: ' + ${quadro.dimensioni}"></li>
-	</ul>
-	<h3><a th:href="@{/dettagliAutore(id=${quadro.autore.id})}" th:text = "'Creato da: ' + ${quadro.autore.nome} + ' ' +  ${quadro.autore.cognome}"></a></h3>
-	
+    <div class="row">
+    <div class="col-lg-12">
+    <h1 class="page-header" style="color:green"> Dettagli Quadro:</h1>
+    </div>
+    </div>
+    <div class="row">
+	    <div class="col-md-7">
+	    	<img th:if ="${quadro.immagine != null}" alt="immagine quadro" class = "img-responsive" style="width:500px;heigth:500px;" th:src="'/quadro/' + ${quadro.immagine}"/>
+	 		<img th:if ="${quadro.immagine == null}" alt="immagine quadro" class = "img-responsive" src="http://www.hvdesaicollege.org/uploads/Department/M.Sc%20Microbiology/noImageFound.jpg" />
+	 	</div>
+	   		<div class="col-md-5">
+				<p style="margin-right:20%;">Titolo: <span th:text="${quadro.titolo}">Notte Stellata</span></p>
+				<p>Anno: <span th:text="${quadro.anno}">1889</span></p>
+				<p>Dimensioni: <span th:text="${quadro.dimensioni}">74x92</span></p>
+				<p>Tecnica: <span th:text="${quadro.tecnica}">Olio su tela</span></p>
+				<p>Autore: <a th:href="@{/dettagliAutore(id=${quadro.autore.id})}"><span th:text="${quadro.autore.nome} + ' ' + ${quadro.autore.cognome}">Claudia Ruggiero</span></a></p>
+				<div sec:authorize="hasAuthority('ADMIN')">
+				    <a class="btn btn-md btn-primary " th:href="@{/modificaQuadro(id=${quadro.id})}">
+				         <i class="glyphicon glyphicon-pencil" style="display:inline" ></i><span>  Modifica Quadro<br/></span>
+				         </a> 
+				
+				    <a class="btn btn-md btn-danger " th:href="@{/rimuoviQuadro(id=${quadro.id})}">
+				         <i class="glyphicon glyphicon-remove" style="display:inline"></i><span>  Rimuovi Quadro<br/></span>
+				         </a>
+				</div>		
+			</div>
+   </div>
 	
 	<div th:if ="${modificatoCorrettamente}">
 		Quadro modificato correttamente
 		</div>
-	<div sec:authorize="hasAuthority('ADMIN')">
-    <a class="btn btn-md btn-primary " th:href="@{/modificaQuadro(id=${quadro.id})}">
-         <i class="glyphicon glyphicon-pencil" style="display:inline" ></i><span>  Modifica Quadro<br/></span>
-         </a> 
-
-    <a class="btn btn-md btn-danger " th:href="@{/rimuoviQuadro(id=${quadro.id})}">
-         <i class="glyphicon glyphicon-remove" style="display:inline"></i><span>  Rimuovi Quadro<br/></span>
-         </a>
-	</div>
 	</div>
 	</div>
 	

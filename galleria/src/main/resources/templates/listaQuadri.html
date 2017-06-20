@@ -9,6 +9,7 @@ body {
 background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
 background-size: 100%;
 padding-top:70px;
+background-attachment: fixed;
 }
 .navbar-default .navbar-nav>li>a {
     padding-bottom: 24px;
@@ -16,16 +17,38 @@ padding-top:70px;
       .myBackground{
     background-color:rgba(255,255,255,0.9);
     color:inerith;}
+    .navbar-default .navbar-nav>li>a:hover{
+    background-color:#dddddd;
+    }
+     .warning{
+    top:70px;
+    left:100px;
+    right:100px;
+    position:absolute;
+    }
+    
+    
 </style>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+	//nasconde i messaggi di conferma dopo 2 secondi
+	var fade_out = function() {
+  		$("#autorecancellato").fadeOut();
+  		$("#quadrocancellato").fadeOut();
+
+	}
+
+	setTimeout(fade_out, 2000);
+</script>
 <title>Lista Quadri</title>
 </head>
 <body>
 <nav class="navbar navbar-default col-md-12 navbar-fixed-top">
          <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
+          <li><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
         <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-           <li class="active" ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
-		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+           <li><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
     </ul>
         		
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
@@ -36,6 +59,12 @@ padding-top:70px;
     		
     </fieldset>
 </nav>
+  	<div class="alert alert-success warning"  th:if="${autoreCancellatoCorrettamente}" id="autorecancellato">
+  			<strong><span>L'autore è stato cancellato correttamente!</span> </strong>
+  	</div>
+  	  	<div class="alert alert-success warning"  th:if="${quadroCancellatoCorrettamente}" id="quadrocancellato">
+  			<strong><span>Il Quadro è stato cancellato correttamente</span> </strong>
+  	</div>
     <div class="container">
     <div class="jumbotron myBackground">
 	<div>
@@ -54,28 +83,49 @@ padding-top:70px;
 	</div>
 	<span th:if ="${nessunRisultato}" style ="color:red">La ricerca non ha prodotto nessun risultato con i parametri indicati!</span>
 	<h1><font color="green">Lista dei Quadri:</font></h1>
-	<ul>
-		<li th:each="quadro : ${quadri}">
-            <div>
-                <span th:if ="${quadro.immagine != null}"><a th:href="@{/dettagliQuadro(id=${quadro.id})}"><img th:src="'/quadro/' + ${quadro.immagine}" th:alt ="${quadro.titolo}" height="200" width="150" style = "display:block;"/></a></span>
-                <a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}" style = "display:block; margin-left:40px"></a>
+	
+		<div class="row" th:each="quadro : ${quadri}">
+		<hr/>
+            <div class="col-md-7">
+                <span th:if ="${quadro.immagine != null}">
+                <a th:href="@{/dettagliQuadro(id=${quadro.id})}">
+                <img th:src="'/quadro/' + ${quadro.immagine}" th:alt ="${quadro.titolo}" height="300px;" width="600px;" style = "display:block;"/>
+                </a>
+                </span>
+                
+                <span th:if ="${quadro.immagine == null}">
+                <a th:href="@{/dettagliQuadro(id=${quadro.id})}">
+                <img src="http://www.hvdesaicollege.org/uploads/Department/M.Sc%20Microbiology/noImageFound.jpg" th:alt ="${quadro.titolo}" height="300px;" width="600px;" style = "display:block;"/>
+                </a>
+                </span>
+                
+               
             </div>
-			<a th:href="@{/dettagliQuadro(id=${quadro.id})}" th:text="${quadro.titolo}"></a>
-		</li>
-	</ul>
+			<div class="col-md-5">
+                <h3><span th:text="'Titolo Opera: '+ ${quadro.titolo}"></span></h3>
+                <h4><span th:text="'Anno Opera: '+ ${quadro.anno}"></span></h4>
+                <h4><span th:text="'Autore: ' +${quadro.autore.nome}+' '+${quadro.autore.cognome}"></span></h4>
+                <a class="btn btn-primary" th:href="@{/dettagliQuadro(id=${quadro.id})}">Visualizza Opera <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+		</div>
 	<h1><font color="red">Lista degli Autori:</font></h1>
-	<ul>
-		<li th:each="autore : ${autori}">
-			<a th:href="@{/dettagliAutore(id=${autore.id})}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a>
-		</li>
-	</ul>
+	
+	<table class="table" >
+	<tr>
+	<th>Autore</th>
+	<th>Nazionalità</th>
+	</tr>
 
-	<span th:if="${autoreCancellatoCorrettamente}" style ="color:red">
-		 <b>L'autore e' stato cancellato correttamente!</b>
-	</span>
-	<span th:if="${quadroCancellatoCorrettamente}" style ="color:red">
-		 <b>Il quadro e' stato cancellato correttamente!</b>
-	</span>
+		<tr th:each="autore : ${autori}">
+		<td> <a th:href="@{/dettagliAutore(id=${autore.id})}" th:text="${autore.nome} + ' ' + ${autore.cognome}"></a></td>
+		<td th:text = "${autore.nazionalita}"> </td>
+		</tr>
+	</table>
+		
+
+
+	
+	
 	</div>
 	</div>
 </body>

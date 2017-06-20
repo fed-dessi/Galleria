@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
 <style type="text/css">
 body {
 background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
@@ -20,11 +22,14 @@ background-attachment: fixed;
     top:70px;
     left:100px;
     right:100px;
-    position:absolute;}
+    position:absolute;
+    }
+   .navbar-default .navbar-nav>li>a:hover{
+    background-color:#dddddd;
+    }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
 
 <title>Galleria D'arte</title>
@@ -47,15 +52,15 @@ background-attachment: fixed;
 <nav class="navbar navbar-default col-md-12 navbar-fixed-top">
 <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-           <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
-		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+        <li ><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li ><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
     </ul>
 	
   
     <form class="form-inline my-lg-0 my-5" method="post" th:action="@{/login}"  sec:authorize="!isAuthenticated()" style="display:inline;">
-      <input class="form-control mr-sm-1" type="text" placeholder="Username" name="username" style="padding-top:2px; margin-left:2px;"/>
-      <input type="password" name="password" class="form-control mr-sm-1" placeholder="password" style="padding-top:2px; margin-left:2px;"/>
+      <input  class="form-control mr-sm-1"  type="text" placeholder="Username"  style="padding-top:2px; margin-left:2px;"  name="username"/>
+      <input  type="password"  class="form-control mr-sm-1" placeholder="password" style="padding-top:2px; margin-left:2px;"  name="password"/>
       <button class="btn btn-primary" type="submit">Login</button>
  	 <button class="btn btn-success" type="submit" form="formRegistrati">Registrati</button>
        <fieldset sec:authorize="!isAuthenticated()">      
@@ -92,7 +97,7 @@ background-attachment: fixed;
 	    
     </div>
   
-  <h1 class="text-center text-uppercase text-muted"><b>Benvenuto nel sito web della Galleria!</b></h1>
+  <h1 class="text-center text-uppercase text-muted" style="color:red"><strong>Benvenuto nel sito web della Galleria!</strong></h1>
   
 <div class="container">
   	<div class="jumbotron myBackground">

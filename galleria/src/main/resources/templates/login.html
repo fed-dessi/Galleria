@@ -15,6 +15,9 @@ padding-top:70px;
       .myBackground{
     background-color:rgba(255,255,255,0.9);
     color:inerith;}
+        .navbar-default .navbar-nav>li>a:hover{
+    background-color:#dddddd;
+    }
 </style>
     <title>Login</title>
   </head>
@@ -22,9 +25,9 @@ padding-top:70px;
   <nav class="navbar navbar-default col-md-12 navbar-fixed-top">
 <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
-        <li class="active"><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-           <li class="active"><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
-		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+        <li><a href="lista"><font color="red"> Lista Quadri</font></a></li>
+           <li ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
+		  <li ><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
     </ul>
     </nav>
     <div>
