@@ -19,6 +19,7 @@ padding-top:70px;
     .myBackground{
     background-color:rgba(255,255,255,0.9);
     color:inerith;}
+    
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Dettagli Utente</title>
@@ -35,27 +36,32 @@ padding-top:70px;
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
     Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
     		
     </fieldset>
     </nav>
     <div class="container">
     <div class="jumbotron myBackground">
-	<h1 th:text = "'Dettagli di: ' + ${utente.username}">Utente</h1>
-	<ul>
-		<li th:text = "'Indirizzo email: ' + ${utente.email}"></li>
-		<li th:text = "'Username Utente ' + ${utente.username}"></li>
-		<li th:text = "'Nome Utente: ' + ${utente.nome}"></li>
-		<li th:text = "'Ruolo Utente: ' + ${utente.ruoliUtente.ruolo}"></li>
-	</ul>
-	<a th:href="@{/modificaUtente(id=${utente.id})}" style ="color:red">Modifica</a>  
-	 <a th:href="@{/rimuoviUtente(id=${utente.id})}" style ="color:red">Rimuovi</a>
+	<h1 th:text = "'Dettagli di: ' + ${utente.username}" style="color:blue;">Utente</h1>
+	<table class="table">
+		<tr><td th:text = "'Username: ' + ${utente.username}"> </td></tr>
+		<tr><td th:text = "'Nome Utente: ' + ${utente.nome}"> </td></tr>
+		<tr><td th:text = "'Indirizzo email: ' + ${utente.email}"> </td></tr>
+	<tr><td th:text = "'Ruolo Utente: ' + ${utente.ruoliUtente.ruolo}"> </td></tr>
+	</table>
+	 	<div sec:authorize="hasAuthority('ADMIN')">
+    <a class="btn btn-md btn-primary " th:href="@{/modificaUtente(id=${utente.id})}">
+         <i class="glyphicon glyphicon-pencil" style="display:inline" ></i><span>  Modifica Utente<br/></span>
+         </a> 
 
-	
-	<form style="display:inline; margin-top:10px">
-		<button formaction = "/admin" type = "submit" formmethod = "GET">Torna alla lista Utenti!</button>
-	</form>
+    <a class="btn btn-md btn-danger " th:href="@{/rimuoviUtente(id=${utente.id})}">
+         <i class="glyphicon glyphicon-remove" style="display:inline"></i><span>  Rimuovi Utente<br/></span>
+         </a>
+	</div>
+
+
+
 	</div>
 	</div>
 </body>

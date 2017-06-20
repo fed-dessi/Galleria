@@ -9,6 +9,8 @@ body {
 background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
 background-size: 100%;
 padding-top:70px;
+background-attachment: fixed;
+
 
 }
 .navbar-default .navbar-nav>li>a {
@@ -62,8 +64,8 @@ padding-top:70px;
         		
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
-    Benvenuto:<b> <span sec:authentication="name"></span>!</b> <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
     		
     </fieldset>
@@ -92,7 +94,7 @@ padding-top:70px;
             <label class="col-sm-2 control-label" for="anno">Anno</label>
             <div class="col-sm-10">
               <input type="text" placeholder="Anno" class="form-control" id="anno" th:field = "*{anno}"/>
-              <span th:if="${#fields.hasErrors('titolo')}" th:text="#{label.mandatory}">Error</span>
+              <span th:if="${#fields.hasErrors('anno')}" th:text="#{label.mandatory}">Error</span>
 
             </div>
           </div>
@@ -110,7 +112,7 @@ padding-top:70px;
             <label class="col-sm-3 control-label" for="dimensioni">Dimensioni</label>
             <div class="col-sm-9">
               <input type="text" placeholder="Dimensioni" class="form-control" th:field = "*{dimensioni}" id="dimensioni" />
-                            <span th:if="${#fields.hasErrors('Dimensioni')}" th:text="#{label.mandatory}">Error</span>
+                            <span th:if="${#fields.hasErrors('dimensioni')}" th:text="#{label.mandatory}">Error</span>
               
             </div>
       </div>

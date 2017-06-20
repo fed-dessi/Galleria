@@ -30,8 +30,8 @@ padding-top:70px;
         		
       <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
-    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+       Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
     		
     </fieldset>
@@ -57,20 +57,22 @@ padding-top:70px;
 			</li>
 		</ul>
 	</div>
-	<form style="display:inline">
-		<button formaction = "index" type = "submit" formmethod = "GET">Torna alla home!</button>
-	</form>
-	<form style="display:inline">
-		<button formaction = "/lista" type = "submit" formmethod = "GET">Torna alla lista!</button>
-	</form>
+	
 	<div th:if ="${modificatoCorrettamente}">
 		Autore modificato correttamente
 	</div>
-	<div sec:authorize="hasAuthority('ADMIN')">
-		<a th:href="@{/modificaAutore(id=${autore.id})}" >Modifica Autore</a>  
-		<a th:href="@{/rimuoviAutore(id=${autore.id})}">Rimuovi Autore</a>
+		<div sec:authorize="hasAuthority('ADMIN')">
+    <a class="btn btn-md btn-primary " th:href="@{/modificaAutore(id=${autore.id})}">
+         <i class="glyphicon glyphicon-pencil" style="display:inline" ></i><span>  Modifica Quadro<br/></span>
+         </a> 
+
+    <a class="btn btn-md btn-danger " th:href="@{/rimuoviAutore(id=${autore.id})}">
+         <i class="glyphicon glyphicon-remove" style="display:inline"></i><span>  Rimuovi Quadro<br/></span>
+         </a>
+	</div>
+
 	</div>
 	</div>
-	</div>
+	
 </body>
 </html>

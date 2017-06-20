@@ -124,7 +124,7 @@ public class IndexController {
     @GetMapping(value = "/quadro/{nomeImmagine}")
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "nomeImmagine") String nomeImmagine) throws IOException {
-        File serverFile = upload.getPathFile(nomeImmagine);
+        File serverFile = upload.getPathFile(nomeImmagine+ ".jpg");
 
         return Files.readAllBytes(serverFile.toPath());
     }

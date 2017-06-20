@@ -40,15 +40,15 @@ padding-top:70px;
     <div class="jumbotron myBackground">
 	<div>
 	
-		<form action = "#" th:action="@{/ricerca}" method = "POST">
-			<label>Ricerca per:</label> 
-			<select name = "selectRicerca" id = "selectRicerca">
+		<form action = "#" th:action="@{/ricerca}" method = "POST" class="form-inline">
+			<label class="mr-sm-2" for="selectRicerca">Ricerca per:</label> 
+			<select class="form-control" name = "selectRicerca" id = "selectRicerca">
 				<option value="1" th:selected="true">Titolo Quadro</option>
 				<option value="2">Anno Quadro</option>
 				<option value="3">Nome e/o Cognome Autore</option>
 				<option value="4">Nazionalita Autore</option>
 			</select>
-			<input type ="text" name ="searchBox" />
+			<input class="form-control mb-2 mr-sm-2 mb-sm-0" type ="text" name ="searchBox" />
 			<input class= "btn btn-primary" type="submit" value = "Ricerca"/>
 		</form>
 	</div>

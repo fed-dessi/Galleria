@@ -20,6 +20,35 @@ padding-top:70px;
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="text/javascript">
+	//questa funzione mi controlla che il valore inserito dentro il campo password, e quello conferma password siano uguali
+	//altrimenti applica un po' di magia CSS e ci da qualche errore visivo. In questo modo evito di confermare la password nel back-end
+	function checkPasswordMatch() {
+	    var password = $.trim($("#Password").val());
+	    var confirmPassword = $.trim($("#ConfermaPassword").val());
+	
+	    if (password != confirmPassword){
+	    		if(password.length > 1){
+		       	 	$("#spanCheckPasswordMatch").html("Password diverse");
+		       	 	$('#spanCheckPasswordMatch').css("color", "red");
+		       	 	$('#Password').css("border", "1px solid red");
+		       	 	$('#ConfermaPassword').css("border", "1px solid red");
+		        	$('#submit').prop('disabled', true);
+	    		}
+	    	}
+	    else{
+	        $("#spanCheckPasswordMatch").html("Le password sono uguali!");
+       	 	$('#spanCheckPasswordMatch').css("color", "green");
+       	 	$('#Password').css("border", "1px solid green");
+       	 	$('#ConfermaPassword').css("border", "1px solid green");
+	        $('#submit').prop('disabled', false);
+	    }
+	}
+	
+	$(document).ready(function () {
+	   $("#ConfermaPassword").keyup(checkPasswordMatch);
+	});
+</script>
+<script type="text/javascript">
 	$(document).ready(function () {
 	    $('#ruoloUtente').change(function () {
 	      $('#autoUpdate').fadeToggle();
@@ -43,54 +72,83 @@ padding-top:70px;
         		
         <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
-    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+     Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
     		
     </fieldset>
     </nav>
 
-	<div>
-	    <div class="container">
+	<div class="container">
     <div class="jumbotron myBackground">
-		<form action="#" th:action="@{/modifica}" th:object="${utente}" method="POST">
-			<h1>Modifica Dati Utente</h1>
-
-			<input type="hidden" th:field="*{id}" />
-
-			<div style="margin-top: 10px">
-				Nome : <input type="text" th:field="*{nome}" /> <span
-					th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
-				Cognome : <input type="text" th:field="*{cognome}" /> <span
-					th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
-				Username : <input type="text" th:field="*{username}" /> 
-				<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
+  <div class="row">
+     <h1 class="text-center" style="color:brown">Modifica Dati Utente </h1>
+ 	
+    <div class="col-md-4 col-md-offset-4" style="margin-left:30%">
+      <form class="form-horizontal" role="form" method="POST" th:action="@{/modifica}" th:object = "${utente}">	
+      <input type="hidden" th:field="*{id}" />	
+        <fieldset>
+		<div class="form-group">
+            <label class="col-sm-3 control-label" for="username">Username</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Username" class="form-control" id="username" name="username" th:field = "*{username}" />
+              <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</span>
 				<span th:if="${usernameEsistente}" th:text ="'Lo username selezionato non e' disponibile, scegline un altro!'">Error</span>
-			</div>
 
-			<div style="margin-top: 10px">
-				Email : <input type="text" th:field="*{email}" /> <span
-					th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
-				Password : <input type="password" th:field="*{password}" /> <span
-					th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
+              
+				
+				 
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="Password">Password</label>
+            <div class="col-sm-9">
+              <input type="password" placeholder="Password" class="form-control" id="Password" th:field = "*{password}" th:value ="${confermaPassword}" name="Password" />
+              <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
+               
+			
+            </div>
+          </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="ConfermaPassword">Conferma Password</label>
+            <div class="col-sm-9">
+              <input type="password" placeholder="Conferma Password" class="form-control" id="ConfermaPassword" th:field = "*{password}" th:value ="${confermaPassword}" name="ConfermaPassword"/>
+				<span id="spanCheckPasswordMatch"></span>
+         </div>
+          </div>	
+		  <div class="form-group">
+            <label class="col-sm-3 control-label" for="email">Email</label>
+            <div class="col-sm-9">
+              <input type="email" placeholder="Email" class="form-control" id="email" name="email"  th:field = "*{email}"/>
+      <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</span>
+     
+		   </div>
+          </div>	
+		<div class="form-group">
+            <label class="col-sm-3 control-label" for="nome">Nome</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Nome" class="form-control" id="nome" name="nome" th:field = "*{nome}"/> 
+              <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span>
+             
+              
+              
+            </div>
+          </div>
+			
+		<div class="form-group">
+            <label class="col-sm-3 control-label" for="cognome">Cognome</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Cognome" class="form-control" id="cognome" name="cognome" th:field = "*{cognome}" />
+              <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Error</span>
+            </div>
+		</div>
+	
+		<div style="margin-top: 10px">
 				<label for="ruoloUtente" style="margin-top: 10px">Cambiare
 					ruolo Utente?</label> <input type="checkbox" name="RuoloUtente"
 					id="ruoloUtente" />
 			</div>
-
-			<div style="margin-top: 10px; margin-bottom: 20px;">
+		<div class="form-group" style="margin-top: 10px; margin-bottom: 20px; margin-left:30%;">
 				<select name="ruoloEsistenti" id="autoUpdate" class="autoUpdate">
 					<option value="" th:disabled="true" th:selected="true">Seleziona un ruolo...</option>
 					<option th:text="'USER'" th:value="'USER'" />
@@ -98,12 +156,20 @@ padding-top:70px;
 				</select>
 			</div>
 
-			<span><button type="submit">Modifica Dati Utente</button></span>
-			
-
-</form>
-</div>
-</div>
+		 <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-central">
+			<span><button class="btn btn-primary" type="submit" id="submit" style="margin-top: 10px; margin-left:30%;" disabled="disabled" >Modifica Dati Utente</button></span>		
+		</div>
+		</div>
+		</div>
+		
+		
+		</fieldset>
+		</form>
+	</div>
+	</div>
+	</div>
 	</div>
 </body>
 

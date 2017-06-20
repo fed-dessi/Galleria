@@ -35,7 +35,7 @@ padding-top:70px;
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
     Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
      
      
@@ -46,11 +46,11 @@ padding-top:70px;
     <h1 class="text-center">Operazioni Disponibili:</h1>
 <div id="bottonecentro">
     <a class="btn btn-lg btn-primary " href="listaUtenti">
-         <i class="glyphicon glyphicon-dashboard pull-left" style="display:block" ></i><span>Lista Utenti<br/></span>
+         <i class="glyphicon glyphicon-user" style="display:inline" ></i><span>  Lista Utenti<br/></span>
          </a> 
 
     <a class="btn btn-lg btn-success " href="inserimento">
-         <i class="glyphicon glyphicon-dashboard pull-left" style="display:block" ></i><span>Nuovo Quadro<br/></span>
+         <i class="glyphicon glyphicon-picture" style="display:inline" ></i><span>  Nuovo Quadro<br/></span>
          </a>
          </div>
    </div>

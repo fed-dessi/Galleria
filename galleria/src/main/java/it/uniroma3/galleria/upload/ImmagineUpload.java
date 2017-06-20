@@ -43,7 +43,7 @@ public class ImmagineUpload {
 	}
 	
 	public File getPathFile(String nomeImmagine){
-       return new File(ABSOLUTE_PATH_DIR_IMMAGINI + nomeImmagine +".jpg");
+       return new File(ABSOLUTE_PATH_DIR_IMMAGINI + nomeImmagine);
 	}
 
 }

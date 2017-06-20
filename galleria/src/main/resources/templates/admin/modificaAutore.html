@@ -43,58 +43,70 @@ padding-top:70px;
         		
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
-    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+       Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
     		
     </fieldset>
     </nav>
-	<div>
 	<div class="container">
     <div class="jumbotron myBackground">
-		<form action="#" th:action="@{/modificaAutore}" th:object="${autore}"
-			method="POST">
-			<h1>Modifica Dati Autore</h1>
+  <div class="row">
+     <h1 class="text-center" style="color:blue">Modifica Dati Autore</h1>
+  
+    <div class="col-md-4 col-md-offset-4">
+      <form class="form-horizontal" role="form" enctype="multipart/form-data" action="#"  th:action="@{/modificaAutore}" th:object = "${autore}" method = "POST"> 
+             <fieldset>
 
-			<input type="hidden" th:field="*{id}" />
 
-			<div style="margin-top: 10px">
-				Nome : <input type="text" th:field="*{nome}" /> <span
-					th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span>
-			</div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="nomeAutore">Nome Autore</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Nome" class="form-control" id="nomeAutore" th:field = "*{nome}" th:readonly = "${inseritoCorrettamente}"/>
+<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span>
+            </div>
+          </div>
+			
+			
+		   <div class="form-group">
+            <label class="col-sm-3 control-label" for="cognomeAutore">Cognome</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Cognome" class="form-control" id="cognomeAutore" th:field = "*{cognome}" th:readonly = "${inseritoCorrettamente}"/>
+              <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Error</span>
 
-			<div style="margin-top: 10px">
-				Cognome : <input type="text" th:field="*{cognome}" /> <span
-					th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
-				Nazionalità : <input type="text" th:field="*{nazionalita}" /> <span
-					th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
-				Data di nascita : <input type="date" th:field="*{dob}" /> <span
-					th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Error</span>
-			</div>
-
-			<div style="margin-top: 10px">
-				Data di morte : <input type="date" th:field="*{dod}" /> <span
-					th:if="${#fields.hasErrors('dod')}" th:errors="*{dod}">Error</span>
-			</div>
-
-		
+            </div>
+          </div>
 
 			
+		 <div class="form-group">
+            <label class="col-sm-3 control-label" for="nazionalita">Nazionalità</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="Nazionalità"  class="form-control" id="nazionalita" th:field = "*{nazionalita}" th:readonly = "${inseritoCorrettamente}"/> 
+              <span th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}">Error</span>
+            </div>
+          </div>
+			
+		<div class="form-group">
+            <label class="col-sm-3 control-label" for="dataob">Data di Nascita</label>
+            <div class="col-sm-9">
+              <input type="date" class="form-control" th:field = "*{dob}" id="dataob" th:readonly = "${inseritoCorrettamente}"/>                            
+              <span th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Error</span>
+              </div>
+              </div>
+		<div class="form-group">
+            <label class="col-sm-3 control-label" for="dataod">Data di Morte</label>
+            <div class="col-sm-9">
+              <input type="date" class="form-control" th:field = "*{dod}" id="dataob" th:readonly = "${inseritoCorrettamente}"/>                           
+               <span th:if="${#fields.hasErrors('dod')}" th:errors="*{dod}">Error</span>
+            </div>
+      </div>
+			
 
-			<span><button type="submit">Modifica Dati Autore</button></span>
-			<button type="submit" form="homeForm"
-				style="disply: inline; margin-left: 5px">Torna alla home!</button>
-		</form>
+		<span><button class="btn btn-md btn-primary" type="submit">Modifica Dati Autore</button></span>
+				</fieldset>
 
-		<!-- Questa form ci fa tornare alla homepage, ma il bottone che la fa partire sta dentro l'altra form -->
-
-		<form action="index" method="GET" id="homeForm"></form>
+</form>
+</div>
 	</div>
 	</div>
 	</div>

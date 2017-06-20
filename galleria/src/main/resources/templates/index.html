@@ -16,6 +16,11 @@ background-attachment: fixed;
     background-color:rgba(255,255,255,0.5);
     color:inerith;
     }
+    .warning{
+    top:70px;
+    left:100px;
+    right:100px;
+    position:absolute;}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -28,6 +33,7 @@ background-attachment: fixed;
 <script type="text/javascript">
 	//nasconde i messaggi di conferma dopo 2 secondi
 	var fade_out = function() {
+  		$("#errLogin").fadeOut();
   		$("#logoutSuccesso").fadeOut();
   		$("#sessione").fadeOut();
   		$("#inserito").fadeOut();
@@ -47,11 +53,11 @@ background-attachment: fixed;
     </ul>
 	
   
-    <form class="form-inline my-lg-0 my-5" method="post" th:action="@{/login}" style="display:inline" sec:authorize="!isAuthenticated()">
-      <input class="form-control mr-sm-1" type="text" placeholder="Username" name="username"/>
-      <input type="password" name="password" class="form-control mr-sm-1" placeholder="password"/>
-      <button class="btn btn-outline-success my-1 my-sm-0 active text-success" type="submit">Login</button>
- 	 <button class="btn btn-outline-success my-1 my-sm-0 active text-success" type="submit" form="formRegistrati">Registrati</button>
+    <form class="form-inline my-lg-0 my-5" method="post" th:action="@{/login}"  sec:authorize="!isAuthenticated()" style="display:inline;">
+      <input class="form-control mr-sm-1" type="text" placeholder="Username" name="username" style="padding-top:2px; margin-left:2px;"/>
+      <input type="password" name="password" class="form-control mr-sm-1" placeholder="password" style="padding-top:2px; margin-left:2px;"/>
+      <button class="btn btn-primary" type="submit">Login</button>
+ 	 <button class="btn btn-success" type="submit" form="formRegistrati">Registrati</button>
        <fieldset sec:authorize="!isAuthenticated()">      
        <label for="checkbox inline" class="bg-info" >Rimani connesso?
        
@@ -61,20 +67,32 @@ background-attachment: fixed;
     </form>
     		<form action="register" method="GET" id="formRegistrati"></form>
     		
-    <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
+  <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
     Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
-   <button class="btn btn-outline-success my-1 my-sm-0 active text-danger" type="submit" form="formLogout">Logout</button>
+   <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+     
     		
     </fieldset>
 </nav>
-  <h1 class="text-center text-uppercase text-muted"><b>Benvenuto nel sito web della Galleria!</b></h1>
-    <div sec:authorize="!isAuthenticated()" class="py-5"> <span th:if="${param.logout}" style="margin-left:5px; display:inline-block" id="logoutSuccesso">Hai effettuato il logout correttamente</span> 
-	    <span th:if="${param.error}" style="display:inline-block">Username e/o Password invalidi.</span> 
-	    <span th:if="${param.expired}" style="margin-left:5px; display:inline-block" id="sessione">La tua sessione e' scaduta.</span> 
-	    <span th:if="${utenteInserito}" style="margin-left:5px; display:inline-block" id="inserito"> Utente <b th:text="${utente.username}"></b> inserito correttamente!</span> 
+  <div sec:authorize="!isAuthenticated()" class="py-5"> 
+  	<div class="alert alert-success warning"  th:if="${param.logout}" id="logoutSuccesso">
+  			<strong><span>Hai effettuato il logout correttamente</span> </strong>
+  	</div>
+	<div class="alert alert-danger warning" th:if="${param.error}" id="errLogin">
+		<strong><span>Username e/o Password invalidi.</span> </strong>
+	</div>
+	<div class="alert alert-warning warning" th:if="${param.expired}" id="sessione"> 
+		<strong><span >La tua sessione è scaduta.</span> </strong>
+	</div>
+	<div class="alert alert-success warning" th:if="${utenteInserito}" id="inserito">  
+		<span> Utente <b th:text="${utente.username}"></b> registrato correttamente!</span> 
+	  </div>
+	    
     </div>
+  
+  <h1 class="text-center text-uppercase text-muted"><b>Benvenuto nel sito web della Galleria!</b></h1>
   
 <div class="container">
   	<div class="jumbotron myBackground">
