@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css">
@@ -13,7 +12,7 @@ body {
 background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
 background-size: 100%;
 padding-top:70px;
-background-attachment: fixed;
+background-attachment:fixed;
 }
 .navbar-default .navbar-nav>li>a {
     padding-bottom: 24px;
@@ -21,13 +20,12 @@ background-attachment: fixed;
     }
       .myBackground{
     background-color:rgba(255,255,255,0.9);
-    color:inerith;
-    }
-    
-#errormessage{
-color:red;
-}
-    .navbar-default .navbar-nav>li>a:hover{
+    color:inerith;}
+
+	label{
+		float:left;
+	}
+   .navbar-default .navbar-nav>li>a:hover{
     background-color:#dddddd;
     }
 
@@ -37,29 +35,29 @@ color:red;
 	//questa funzione mi controlla che il valore inserito dentro il campo password, e quello conferma password siano uguali
 	//altrimenti applica un po' di magia CSS e ci da qualche errore visivo. In questo modo evito di confermare la password nel back-end
 	function checkPasswordMatch() {
-	    var password = $.trim($("#Password").val());
-	    var confirmPassword = $.trim($("#ConfermaPassword").val());
+	    var password = $.trim($("#password").val());
+	    var confirmPassword = $.trim($("#confermaPassword").val());
 	
 	    if (password != confirmPassword){
 	    		if(password.length > 1){
 		       	 	$("#spanCheckPasswordMatch").html("Password diverse");
 		       	 	$('#spanCheckPasswordMatch').css("color", "red");
-		       	 	$('#Password').css("border", "1px solid red");
-		       	 	$('#ConfermaPassword').css("border", "1px solid red");
+		       	 	$('#password').css("border", "1px solid red");
+		       	 	$('#confermaPassword').css("border", "1px solid red");
 		        	$('#submit').prop('disabled', true);
 	    		}
 	    	}
 	    else{
 	        $("#spanCheckPasswordMatch").html("Le password sono uguali!");
        	 	$('#spanCheckPasswordMatch').css("color", "green");
-       	 	$('#Password').css("border", "1px solid green");
-       	 	$('#ConfermaPassword').css("border", "1px solid green");
+       	 	$('#password').css("border", "1px solid green");
+       	 	$('#confermaPassword').css("border", "1px solid green");
 	        $('#submit').prop('disabled', false);
 	    }
 	}
 	
 	$(document).ready(function () {
-	   $("#ConfermaPassword").keyup(checkPasswordMatch);
+	   $("#confermaPassword").keyup(checkPasswordMatch);
 	});
 </script>
 
@@ -71,83 +69,98 @@ color:red;
          <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
         <li><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-         
     </ul>
 </nav>
-	<div class="container">
+	<h1 class="text-center text-uppercase text-muted">Registrazione Utente</h1>
+    <div class="container">
     <div class="jumbotron myBackground">
-  <div class="row">
-     <h1 class="text-center" style="color:brown">Inserisci i tuoi Dati </h1>
- 	
-    <div class="col-md-4 col-md-offset-4" style="margin-left:30%">
-      <form class="form-horizontal"  method="POST" th:action="@{/register}" th:object = "${utente}">		
-        <fieldset>
-		<div class="form-group">
-            <label class="col-sm-3 control-label" for="username">Username</label>
-            <div class="col-sm-9">
-              <input type="text" placeholder="Username" class="form-control" id="username" name="username" th:field = "*{username}" />
-              <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" id="errormessage">Error</span>
-              <span th:if ="${usernameEsistente}" style= "color:red">Username gia' esistente, selezionane un altro!</span> 
-              
+
+
+		<div id="form" align="center" style="margin-left:35%;">
+			<form class="form-horizontal" th:action="@{/register}" method ="post" th:object="${utente}">
+
+				<div class="form-group">
+					<div class="row">
+            			<div class="col-md-6">
+						<label for="username" class="col-2 col-form-label">
+							Username
+						</label>
+						<input class="form-control" type="text" th:field="*{username}"/>
+						<span th:if="${#fields.hasErrors('username')}" th:errors = "*{username}">Error</span>
+						<span th:if ="${usernameEsistente}" style= "color:red">Username gia' esistente, selezionane un altro!</span> 
+					</div>
+					</div>
+				</div>
 				
-				 
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="Password">Password</label>
-            <div class="col-sm-9">
-              <input type="password" placeholder="Password" class="form-control" id="Password" th:field = "*{password}" th:value ="${confermaPassword}" name="Password" />
-              <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
-               
-			
-            </div>
-          </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label" for="ConfermaPassword">Conferma Password</label>
-            <div class="col-sm-9">
-              <input type="password" placeholder="Conferma Password" class="form-control" id="ConfermaPassword" th:field = "*{password}" th:value ="${confermaPassword}" name="ConfermaPassword"/>
-				<span id="spanCheckPasswordMatch"></span>
-         </div>
-          </div>	
-		  <div class="form-group">
-            <label class="col-sm-3 control-label" for="email">Email</label>
-            <div class="col-sm-9">
-              <input type="email" placeholder="Email" class="form-control" id="email" name="email"  th:field = "*{email}"/>
-       <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="errormessage">Error</span>        
-		   </div>
-          </div>	
-		<div class="form-group">
-            <label class="col-sm-3 control-label" for="nome">Nome</label>
-            <div class="col-sm-9">
-              <input type="text" placeholder="Nome" class="form-control" id="nome" name="nome" th:field = "*{nome}"/> 
-              <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" id="errormessage">Error</span>
-             
-              
-              
-            </div>
-          </div>
-			
-		<div class="form-group">
-            <label class="col-sm-3 control-label" for="cognome">Cognome</label>
-            <div class="col-sm-9">
-              <input type="text" placeholder="Cognome" class="form-control" id="cognome" name="cognome" th:field = "*{cognome}" />
-              <span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" id="errormessage">Error</span>
-            </div>
+				<div class="form-group">
+					<div class="row">
+            			<div class="col-md-6">
+						<label for="password" class="col-2 col-form-label">
+							Password
+						</label>
+						<input class="form-control" type="password" th:field="*{password}" id ="password"/>
+						<span th:if="${#fields.hasErrors('password')}" th:errors = "*{password}">Error</span>
+					</div>
+					</div>
+				</div>
 				
-</div>
-					  <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <div class="pull-central">
-			<span><button class="btn btn-primary" type="submit" id="submit" style="margin-top: 10px; margin-left:30%;" disabled="disabled" >Registrati</button></span>		
+				<div class="form-group">
+					<div class="row">
+            			<div class="col-md-6">
+						<label for="confermaPassword" class="col-2 col-form-label">
+							Conferma Password
+						</label>
+						<input class="form-control" type="password" id ="confermaPassword"/>
+						<span id="spanCheckPasswordMatch"></span>
+					</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="row">
+            			<div class="col-md-6">
+						<label for="email" class="col-2 col-form-label">
+							Email
+						</label>
+						<input class="form-control" type="text" th:field="*{email}"/>
+						<span th:if="${#fields.hasErrors('email')}" th:errors = "*{email}">Error</span>
+					</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="row">
+            			<div class="col-md-6">
+						<label for="nome" class="col-2 col-form-label">
+							Nome
+						</label>
+						<input class="form-control" type="text" th:field="*{nome}"/>
+						<span th:if="${#fields.hasErrors('nome')}" th:errors = "*{nome}">Error</span>
+					</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="row">
+            			<div class="col-md-6">
+						<label for="cognome" class="col-2 col-form-label">
+							Cognome
+						</label>
+						<input class="form-control" type="text" th:field="*{cognome}"/>
+						<span th:if="${#fields.hasErrors('cognome')}" th:errors = "*{cognome}">Error</span>
+					</div>
+					</div>
+				</div>
+		<div class="form-group">
+				<div class="row">
+           			<div class="col-md-6">		
+				<button class="btn btn-primary" type="submit" id="submit" disabled="disabled">Registrati</button>
+				</div>
+				</div>
+				</div>		
+			</form>
 		</div>
-		</div>
-		</div>
-		
-		
-		</fieldset>
-		</form>
-	</div>
-	</div>
+
 	</div>
 	</div>
 	</div>
