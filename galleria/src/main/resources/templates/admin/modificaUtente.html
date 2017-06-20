@@ -36,7 +36,7 @@ background-attachment: fixed;
 		       	 	$('#spanCheckPasswordMatch').css("color", "red");
 		       	 	$('#Password').css("border", "1px solid red");
 		       	 	$('#ConfermaPassword').css("border", "1px solid red");
-		        	$('#submit').prop('disabled', true);
+		        	
 	    		}
 	    	}
 	    else{
@@ -44,7 +44,7 @@ background-attachment: fixed;
        	 	$('#spanCheckPasswordMatch').css("color", "green");
        	 	$('#Password').css("border", "1px solid green");
        	 	$('#ConfermaPassword').css("border", "1px solid green");
-	        $('#submit').prop('disabled', false);
+	        
 	    }
 	}
 	
@@ -108,7 +108,7 @@ background-attachment: fixed;
           <div class="form-group">
             <label class="col-sm-3 control-label" for="Password">Password</label>
             <div class="col-sm-9">
-              <input type="password" placeholder="Password" class="form-control" id="Password" th:field = "*{password}" th:value ="${confermaPassword}" name="Password" />
+              <input type="password" placeholder="Password" class="form-control" id="Password" th:field = "*{password}" name="Password" />
               <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</span>
                
 			
@@ -117,7 +117,7 @@ background-attachment: fixed;
         <div class="form-group">
             <label class="col-sm-3 control-label" for="ConfermaPassword">Conferma Password</label>
             <div class="col-sm-9">
-              <input type="password" placeholder="Conferma Password" class="form-control" id="ConfermaPassword" th:field = "*{password}" th:value ="${confermaPassword}" name="ConfermaPassword"/>
+              <input type="password" placeholder="Conferma Password" class="form-control" id="ConfermaPassword" name="ConfermaPassword"/>
 				<span id="spanCheckPasswordMatch"></span>
          </div>
           </div>	
@@ -164,7 +164,7 @@ background-attachment: fixed;
 		 <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <div class="pull-central">
-			<span><button class="btn btn-primary" type="submit" id="submit" style="margin-top: 10px; margin-left:30%;" disabled="disabled" >Modifica Dati Utente</button></span>		
+			<span><button class="btn btn-primary" type="submit" id="submit" style="margin-top: 10px; margin-left:30%;"  >Modifica Dati Utente</button></span>		
 		</div>
 		</div>
 		</div>

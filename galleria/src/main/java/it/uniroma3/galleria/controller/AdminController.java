@@ -91,7 +91,7 @@ public class AdminController {
 				
 			}
 		}
-		
+	System.out.println(utente.getPassword());
 		//controllo se la password va cambiata (dafault = password non inserita, non va cambiata)
 		if(utente.getPassword().equals("")|| utente.getPassword()==null){
 			String vecchiaPassword= service.getOneUtente(id).getPassword();

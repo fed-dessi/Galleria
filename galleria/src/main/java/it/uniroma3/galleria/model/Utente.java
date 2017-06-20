@@ -29,7 +29,6 @@ public class Utente{
 	private String username;
 	
 	@NotNull
-	@NotBlank
 	private String password;
 	
 	
