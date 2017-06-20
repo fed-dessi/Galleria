@@ -8,6 +8,7 @@ body {
 background: url(https://kunstmuseumbasel.ch/storage/11_mg4871_4453008e.jpg) no-repeat;
 background-size: 100%;
 padding-top:70px;
+background-attachment: fixed;
 }
 .navbar-default .navbar-nav>li>a {
     padding-bottom: 24px;
@@ -25,17 +26,18 @@ padding-top:70px;
 <body>
 <nav class="navbar navbar-default col-md-12 navbar-fixed-top">
 <ul class="nav navbar-nav navbar-right">
-          <li ><a href="index"><font color="blue"> Home </font> <span class="sr-only">(current)</span></a></li>
-        <li ><a href="lista"><font color="red"> Lista Quadri</font></a></li>
-           <li ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')"><font color="green"> Nuovo Quadro</font> <span class="sr-only">(current)</span></a></li>
-		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')"><font color="black"> Pannello di controllo</font></a></li>
+          <li ><a href="index" class="glyphicon glyphicon-home"><font color="blue"><strong> Home</strong> </font> <span class="sr-only">(current)</span></a></li>
+        <li ><a href="lista" class="glyphicon glyphicon-camera"><font color="red"><strong> Lista Quadri</strong></font></a></li>
+           <li ><a href="inserimento" sec:authorize="hasAuthority('ADMIN')" class="glyphicon glyphicon-picture"><font color="green"><strong> Nuovo Quadro</strong></font> <span class="sr-only">(current)</span></a></li>
+		  <li class="active"><a href="admin" sec:authorize="hasAuthority('ADMIN')" class="glyphicon glyphicon-wrench"><font color="black"><strong> Pannello di controllo</strong></font></a></li>
     </ul>
         		
     <fieldset sec:authorize="isAuthenticated()" style="padding: 12px">
     
-    Benvenuto: <span sec:authentication="name"></span>! <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
+<strong> Benvenuto: <span sec:authentication="name"></span>!</strong> <span sec:authorize="hasAuthority('ADMIN')" sec:authentication="principal.authorities"></span>
    <button class= "btn btn-danger" type="submit" form="formLogout">Logout</button>
     <form  action="#" th:action="@{/logout}" method="POST" id="formLogout"></form>
+     
     		
     </fieldset>
     </nav>
@@ -44,13 +46,19 @@ padding-top:70px;
 
     <div class="container">
     <div class="jumbotron myBackground">
-    <h1>Lista Utenti</h1>
-<ul>
+    <h1 style="color:blue;">Lista Utenti</h1>
 
-		<li th:each="utente : ${utenti}">
-			<a th:href="@{/dettagliUtente(id=${utente.id})}" th:text="${utente.username}"></a>
-		</li>
-	</ul>
+	<table class="table" >
+	<tr>
+	<th>Username</th>
+	<th>Email</th>
+	</tr>
+
+		<tr th:each="utente : ${utenti}">
+		<td><strong> <a th:href="@{/dettagliUtente(id=${utente.id})}" th:text="${utente.username}"></a></strong></td>
+		<td th:text = "${utente.email}"> </td>
+		</tr>
+	</table>
 	<div th:if="${cancellato}">
 		<span th:text="${utente.username} + ' cancellato correttamente!'"></span> 
 	</div>
